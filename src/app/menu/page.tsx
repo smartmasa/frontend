@@ -5,7 +5,7 @@ import { menuData } from '@/data/meals';
 import { Button } from '@/app/components/Button';
 import { useState } from 'react';
 import Tab from '@/app/components/Tab';
-import LanguageButton from '@/app/components/LanguageButton';
+import HeaderWithLogo from '@/app/components/HeaderWithLogo';
 import { useRouter } from 'next/navigation';
 import { useOrder } from '@/contexts/OrderContext';
 import { formatPrice } from '@/lib/formatters';
@@ -100,13 +100,7 @@ export default function MenuPage() {
   return (
     <div className="container mx-auto max-w-7xl">
       <main className="min-h-screen pb-24 bg-gray-50">
-        {/* Header with Logo and Language Selector */}
-        <div className="bg-white shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 pt-2 flex justify-between items-center">
-            <h1 className="text-xl font-bold">LOGO</h1>
-            <LanguageButton />
-          </div>
-        </div>
+        <HeaderWithLogo />
 
         {/* Scrollable tabs */}
         <div className="sticky top-0 bg-white shadow-sm z-10">

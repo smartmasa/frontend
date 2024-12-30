@@ -3,12 +3,11 @@
 import { useRouter } from 'next/navigation';
 import { Button } from '@/app/components/Button';
 import { OrderCard } from '@/app/components/OrderCard';
-import LanguageButton from '@/app/components/LanguageButton';
 import { useOrder } from '@/contexts/OrderContext';
-import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import { formatPrice } from '@/lib/formatters';
 import { useState } from 'react';
 import { OrderConfirmationModal } from '@/app/components/OrderConfirmationModal';
+import { HeaderWithBack } from '@/app/components/HeaderWithBack';
 
 export default function OrdersPage() {
   const router = useRouter();
@@ -25,21 +24,7 @@ export default function OrdersPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm p-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <button 
-              onClick={() => router.back()}
-              className="mr-4 text-secondary-500"
-            >
-              <ArrowLeftIcon className="h-6 w-6" />
-            </button>
-            <h1 className="text-lg font-semibold text-secondary-500">My orders</h1>
-          </div>
-          <LanguageButton />
-        </div>
-      </div>
+      <HeaderWithBack title="My orders" />
 
       {/* Order Items */}
       <div className="p-4 space-y-4">
