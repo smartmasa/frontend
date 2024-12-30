@@ -91,7 +91,7 @@ export default {
         '3xl': '46px',
       },
       screens: {
-        'xs': {'max': '374px'},
+        'xs': '375px',
       },
     },
   },

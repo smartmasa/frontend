@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <main className="min-h-screen p-8 bg-gray-50">
+    <main className="container mx-auto max-w-7xl px-4 min-h-screen p-8 bg-gray-50">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold mb-6">Welcome to Our Restaurant</h1>
         

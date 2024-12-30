@@ -14,10 +14,10 @@ const Tab = ({ label, isActive = false, onClick, className }: TabProps) => {
     <button
       onClick={onClick}
       className={cn(
-        'px-4 py-2 rounded-[10px] text-sm text-center transition-colors whitespace-nowrap',
+        'px-4 py-2 rounded-lg text-secondary-500 text-xs text-center transition-colors whitespace-nowrap',
         isActive 
-          ? 'bg-primary-500 text-white' 
-          : 'bg-secondary-200 text-gray-600 hover:bg-secondary-300',
+          ? 'bg-primary-500' 
+          : 'bg-secondary-200 hover:bg-secondary-300',
         className
       )}
     >
