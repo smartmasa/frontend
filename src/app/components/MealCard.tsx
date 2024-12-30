@@ -5,6 +5,7 @@ import { StarIcon } from '@heroicons/react/24/solid';
 import { FireIcon } from '@heroicons/react/24/solid';
 import { PlusIcon, MinusIcon } from '@heroicons/react/24/solid';
 import { Button } from './Button';
+import { formatPrice } from '@/lib/formatters';
 
 interface MealCardProps {
   name: string;
@@ -85,7 +86,7 @@ const MealCard = ({
               <span className="text-xs text-gray-500">{cookingTime}</span>
             </div>
             <span className="text-sm font-semibold text-primary-500">
-              ${price.toFixed(2)}
+              {formatPrice(price)}
             </span>
           </div>
           

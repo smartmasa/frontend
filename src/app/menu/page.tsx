@@ -5,18 +5,40 @@ import { menuData } from '@/data/meals';
 import { Button } from '@/app/components/Button';
 import { useState } from 'react';
 import Tab from '@/app/components/Tab';
-import LanguageButton, { Language } from '@/app/components/LanguageButton';
+import LanguageButton from '@/app/components/LanguageButton';
 import { useRouter } from 'next/navigation';
-import { useOrder, OrderItem } from '@/contexts/OrderContext';
+import { useOrder } from '@/contexts/OrderContext';
+import { formatPrice } from '@/lib/formatters';
 
 interface CategorySectionProps {
   category: typeof menuData[0];
-  onQuantityChange: (mealId: string, newQuantity: number) => void;
   gridClassName?: string;
 }
 
-function CategorySection({ category, onQuantityChange, gridClassName }: CategorySectionProps) {
-  const { orderItems } = useOrder();
+function CategorySection({ category, gridClassName }: CategorySectionProps) {
+  const { orderItems, updateQuantity, addToOrder } = useOrder();
+  
+  const handleQuantityChange = (mealId: string, newQuantity: number) => {
+    const existingItem = orderItems.find(item => item.id === mealId);
+    if (!existingItem && newQuantity > 0) {
+      // Find the meal data
+      const meal = menuData
+        .flatMap(category => category.meals)
+        .find(meal => meal.id === mealId);
+      
+      if (meal) {
+        addToOrder({
+          id: meal.id,
+          name: meal.name,
+          price: meal.price,
+          quantity: newQuantity,
+          imageUrl: meal.imageUrl,
+        });
+      }
+    } else {
+      updateQuantity(mealId, newQuantity);
+    }
+  };
   
   return (
     <div key={category.id} className="mb-8">
@@ -37,7 +59,7 @@ function CategorySection({ category, onQuantityChange, gridClassName }: Category
             isSpicy={meal.isSpicy}
             quantity={orderItems.find(item => item.id === meal.id)?.quantity || 0}
             onQuantityChange={(newQuantity) => 
-              onQuantityChange(meal.id, newQuantity)
+              handleQuantityChange(meal.id, newQuantity)
             }
           />
         ))}
@@ -50,45 +72,30 @@ export default function MenuPage() {
   const router = useRouter();
   const { orderItems, updateQuantity, addToOrder } = useOrder();
   const [activeCategory, setActiveCategory] = useState('all');
-  const [selectedLanguage, setSelectedLanguage] = useState<Language>({ code: 'az', name: 'Azerbaijani' });
 
   const handleQuantityChange = (mealId: string, newQuantity: number) => {
-    const meal = menuData
-      .flatMap(category => category.meals)
-      .find(meal => meal.id === mealId);
-
-    if (meal) {
-      if (newQuantity > 0) {
-        const orderItem: OrderItem = {
+    const existingItem = orderItems.find(item => item.id === mealId);
+    if (!existingItem && newQuantity > 0) {
+      // Find the meal data
+      const meal = menuData
+        .flatMap(category => category.meals)
+        .find(meal => meal.id === mealId);
+      
+      if (meal) {
+        addToOrder({
           id: meal.id,
           name: meal.name,
           price: meal.price,
           quantity: newQuantity,
           imageUrl: meal.imageUrl,
-        };
-        addToOrder(orderItem);
+        });
       }
+    } else {
       updateQuantity(mealId, newQuantity);
     }
   };
 
-  const calculateTotal = () => {
-    return menuData.reduce((total, category) => {
-      return total + category.meals.reduce((categoryTotal, meal) => {
-        const orderItem = orderItems.find(item => item.id === meal.id);
-        const quantity = orderItem?.quantity || 0;
-        return categoryTotal + (meal.price * quantity);
-      }, 0);
-    }, 0);
-  };
-
-  const total = calculateTotal();
-
-  const handleViewOrder = () => {
-    if (orderItems.length > 0) {
-      router.push('/orders');
-    }
-  };
+  const total = orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
   return (
     <div className="container mx-auto max-w-7xl">
@@ -97,10 +104,7 @@ export default function MenuPage() {
         <div className="bg-white shadow-sm">
           <div className="max-w-7xl mx-auto px-4 pt-2 flex justify-between items-center">
             <h1 className="text-xl font-bold">LOGO</h1>
-            <LanguageButton
-              selectedLanguage={selectedLanguage}
-              onLanguageChange={setSelectedLanguage}
-            />
+            <LanguageButton />
           </div>
         </div>
 
@@ -132,7 +136,6 @@ export default function MenuPage() {
                 <CategorySection
                   key={category.id}
                   category={category}
-                  onQuantityChange={handleQuantityChange}
                 />
               ))
             ) : (
@@ -141,7 +144,6 @@ export default function MenuPage() {
                   <CategorySection
                     key={category.id}
                     category={category}
-                    onQuantityChange={handleQuantityChange}
                     gridClassName="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-y-8 px-4"
                   />
                 )
@@ -155,12 +157,12 @@ export default function MenuPage() {
             <Button
               variant="primary"
               className="w-full"
-              onClick={handleViewOrder}
+              onClick={() => router.push('/orders')}
               disabled={total === 0}
             >
               <div className="flex justify-between items-center w-full">
                 <span>View Order</span>
-                <span>${total.toFixed(2)}</span>
+                <span>{formatPrice(total)}</span>
               </div>
             </Button>
           </div>

@@ -1,17 +1,16 @@
 "use client";
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/app/components/Button';
 import { OrderCard } from '@/app/components/OrderCard';
-import LanguageButton, { Language } from '@/app/components/LanguageButton';
+import LanguageButton from '@/app/components/LanguageButton';
 import { useOrder } from '@/contexts/OrderContext';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
+import { formatPrice } from '@/lib/formatters';
 
 export default function OrdersPage() {
   const router = useRouter();
   const { orderItems, updateQuantity } = useOrder();
-  const [selectedLanguage, setSelectedLanguage] = useState<Language>({ code: 'az', name: 'Azerbaijani' });
 
   const calculateTotal = () => {
     return orderItems.reduce((total, item) => total + (item.price * item.quantity), 0);
@@ -31,10 +30,7 @@ export default function OrdersPage() {
             </button>
             <h1 className="text-lg font-semibold text-secondary-500">My orders</h1>
           </div>
-          <LanguageButton
-            selectedLanguage={selectedLanguage}
-            onLanguageChange={setSelectedLanguage}
-          />
+          <LanguageButton />
         </div>
       </div>
 
@@ -63,7 +59,7 @@ export default function OrdersPage() {
             className="flex-1 flex justify-between"
           >
             <span>Order</span>
-            <span>${calculateTotal().toFixed(2)}</span>
+            <span>{formatPrice(calculateTotal())}</span>
           </Button>
         </div>
       </div>

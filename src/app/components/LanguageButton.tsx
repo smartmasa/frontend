@@ -4,26 +4,11 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import LanguageTab from './LanguageTab';
+import { useLanguage, languages } from '@/contexts/LanguageContext';
 
-interface Language {
-  code: string;
-  name: string;
-}
-
-interface LanguageButtonProps {
-  selectedLanguage: Language;
-  onLanguageChange: (language: Language) => void;
-}
-
-const languages: Language[] = [
-  { code: 'az', name: 'Azerbaijani' },
-  { code: 'ru', name: 'Russian' },
-  { code: 'tr', name: 'Turkish' },
-  { code: 'uk', name: 'English' },
-];
-
-export default function LanguageButton({ selectedLanguage, onLanguageChange }: LanguageButtonProps) {
+export default function LanguageButton() {
   const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
+  const { selectedLanguage, setLanguage } = useLanguage();
 
   return (
     <>
@@ -62,7 +47,7 @@ export default function LanguageButton({ selectedLanguage, onLanguageChange }: L
                     name={language.name}
                     isSelected={selectedLanguage.code === language.code}
                     onClick={() => {
-                      onLanguageChange(language);
+                      setLanguage(language);
                       setIsLanguageModalOpen(false);
                     }}
                   />
@@ -76,4 +61,4 @@ export default function LanguageButton({ selectedLanguage, onLanguageChange }: L
   );
 }
 
-export type { Language }; 
+export type { Language } from '@/contexts/LanguageContext'; 
