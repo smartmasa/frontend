@@ -5,6 +5,7 @@ import { menuData } from '@/data/meals';
 import { PhoneIcon, ShoppingCartIcon } from '@heroicons/react/24/solid';
 import { Button } from '@/app/components/Button';
 import { useState } from 'react';
+import Tab from '@/app/components/Tab';
 
 interface MealQuantities {
   [mealId: string]: number;
@@ -39,14 +40,12 @@ export default function MenuPage() {
         <div className="overflow-x-auto scrollbar-hide">
           <div className="flex gap-2 p-4 min-w-full">
             {menuData.map((category) => (
-              <Button
+              <Tab
                 key={category.id}
-                variant={activeCategory === category.id ? "primary" : "secondary"}
+                label={category.name}
+                isActive={activeCategory === category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className="whitespace-nowrap"
-              >
-                {category.name}
-              </Button>
+              />
             ))}
           </div>
         </div>
