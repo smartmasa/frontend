@@ -2,19 +2,26 @@
 
 import MealCard from '@/app/components/MealCard';
 import { menuData } from '@/data/meals';
-import { PhoneIcon, ShoppingCartIcon, GlobeAltIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { Button } from '@/app/components/Button';
 import { useState } from 'react';
 import Tab from '@/app/components/Tab';
-import Image from 'next/image';
 import LanguageButton, { Language } from '@/app/components/LanguageButton';
-
-interface MealQuantities {
-  [mealId: string]: number;
-}
+import { useRouter } from 'next/navigation';
+import { MealQuantities, OrderItem } from '@/types/order';
+import { useOrder } from '@/contexts/OrderContext';
 
 export default function MenuPage() {
-  const [mealQuantities, setMealQuantities] = useState<MealQuantities>({});
+  const router = useRouter();
+  const { orderItems, setOrderItems } = useOrder();
+  
+  const [mealQuantities, setMealQuantities] = useState<MealQuantities>(() => {
+    const quantities: MealQuantities = {};
+    orderItems.forEach(item => {
+      quantities[item.id] = item.quantity;
+    });
+    return quantities;
+  });
+
   const [activeCategory, setActiveCategory] = useState('all');
   const [selectedLanguage, setSelectedLanguage] = useState<Language>({ code: 'az', name: 'Azerbaijani' });
 
@@ -41,6 +48,22 @@ export default function MenuPage() {
       return menuData.flatMap(category => category.meals);
     }
     return menuData.find(category => category.id === activeCategory)?.meals || [];
+  };
+
+  const handleViewOrder = () => {
+    const newOrderItems: OrderItem[] = menuData
+      .flatMap(category => category.meals)
+      .filter(meal => mealQuantities[meal.id] && mealQuantities[meal.id] > 0)
+      .map(meal => ({
+        id: meal.id,
+        name: meal.name,
+        price: meal.price,
+        quantity: mealQuantities[meal.id],
+        imageUrl: meal.imageUrl
+      }));
+
+    setOrderItems(newOrderItems);
+    router.push('/orders');
   };
 
   return (
@@ -148,6 +171,8 @@ export default function MenuPage() {
             <Button
               variant="primary"
               className="w-full"
+              onClick={handleViewOrder}
+              disabled={total === 0}
             >
               View Order <span className="ml-2 font-semibold">${total.toFixed(2)}</span>
             </Button>
