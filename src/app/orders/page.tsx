@@ -52,13 +52,13 @@ export default function OrdersPage() {
             variant="secondary"
             className="flex-1"
             onClick={() => router.push('/menu')}
-            text="Edit order"
+            text="Edit"
           />
           <Button
             variant="primary"
             className="flex-1 flex justify-between"
           >
-            <span>Order</span>
+            <span>Finish</span>
             <span>{formatPrice(calculateTotal())}</span>
           </Button>
         </div>
