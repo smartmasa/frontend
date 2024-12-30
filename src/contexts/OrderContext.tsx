@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 export interface OrderItem {
   id: string;
@@ -24,28 +24,44 @@ interface OrderContextType {
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
 
+const STORAGE_KEY = 'smartmasa_order';
+
 export function OrderProvider({ children }: { children: ReactNode }) {
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
+
+  // Load from sessionStorage on client-side mount
+  useEffect(() => {
+    const savedOrder = sessionStorage.getItem(STORAGE_KEY);
+    if (savedOrder) {
+      setOrderItems(JSON.parse(savedOrder));
+    }
+  }, []);
+
+  // Update sessionStorage whenever orderItems changes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(orderItems));
+    }
+  }, [orderItems]);
 
   const addToOrder = (newItem: OrderItem) => {
     setOrderItems(items => {
       const existingItem = items.find(item => item.id === newItem.id);
-      if (existingItem) {
-        return items.map(item =>
-          item.id === newItem.id
-            ? { ...item, quantity: item.quantity + newItem.quantity }
-            : item
-        );
-      }
-      return [...items, newItem];
+      return existingItem
+        ? items.map(item =>
+            item.id === newItem.id
+              ? { ...item, quantity: item.quantity + newItem.quantity }
+              : item
+          )
+        : [...items, newItem];
     });
   };
 
   const updateQuantity = (id: string, quantity: number) => {
     setOrderItems(items =>
-      items.map(item =>
-        item.id === id ? { ...item, quantity } : item
-      ).filter(item => item.quantity > 0)
+      items
+        .map(item => item.id === id ? { ...item, quantity } : item)
+        .filter(item => item.quantity > 0)
     );
   };
 
