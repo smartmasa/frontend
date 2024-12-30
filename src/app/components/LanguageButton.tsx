@@ -29,7 +29,7 @@ export default function LanguageButton({ selectedLanguage, onLanguageChange }: L
     <>
       <button
         onClick={() => setIsLanguageModalOpen(true)}
-        className="flex items-center gap-2 p-2 hover:bg-gray-50 rounded-lg"
+        className="flex items-center hover:bg-gray-50 rounded-lg"
       >
         <Image 
           src={`/flags/${selectedLanguage.code}.svg`}

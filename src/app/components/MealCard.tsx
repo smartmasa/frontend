@@ -95,7 +95,6 @@ const MealCard = ({
                 variant="secondary"
                 onClick={handleDecrement}
                 aria-label="Remove from cart"
-                iconPosition="icon-only"
                 icon={<MinusIcon/>}
               />
             ) : (
@@ -104,7 +103,6 @@ const MealCard = ({
             <Button
               variant="primary"
               onClick={handleIncrement}
-              iconPosition="icon-only"
               icon={quantity > 0 ? quantity : <PlusIcon/>}
               aria-label={quantity > 0 ? `Quantity: ${quantity}` : 'Add to cart'}
             />

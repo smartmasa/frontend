@@ -1,7 +1,18 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode } from 'react';
-import { OrderItem } from '@/types/order';
+
+export interface OrderItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  imageUrl: string;
+}
+
+export interface MealQuantities {
+  [mealId: string]: number;
+}
 
 interface OrderContextType {
   orderItems: OrderItem[];

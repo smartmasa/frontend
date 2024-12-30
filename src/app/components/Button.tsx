@@ -3,8 +3,7 @@ import { VariantProps, cva } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  // Base styles
-  'inline-flex items-center justify-center rounded-xl text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 disabled:pointer-events-none',
+  'inline-flex items-center justify-center text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 disabled:pointer-events-none',
   {
     variants: {
       variant: {
@@ -15,12 +14,16 @@ const buttonVariants = cva(
         none: 'px-4 py-2',
         'icon-left': 'pl-3 pr-4 py-2 gap-2',
         'icon-right': 'pl-4 pr-3 py-2 gap-2',
-        'icon-only': 'p-2',
       },
+      hasText: {
+        true: 'h-12 rounded-[14px]',
+        false: 'p-2 rounded-[6px]',
+      }
     },
     defaultVariants: {
       variant: 'primary',
       iconPosition: 'none',
+      hasText: false,
     },
   }
 );
@@ -29,6 +32,7 @@ export interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   icon?: ReactNode;
+  text?: string;
 }
 
 const Button = ({
@@ -36,28 +40,29 @@ const Button = ({
   variant,
   iconPosition,
   icon,
+  text,
   children,
   ...props
 }: ButtonProps) => {
-  const iconClass = iconPosition === 'icon-only' ? 'w-6 h-6' : 'w-5 h-5';
-
+  const hasText = Boolean(text || children);
+  
   return (
     <button
-      className={cn(buttonVariants({ variant, iconPosition, className }))}
+      className={cn(buttonVariants({ variant, iconPosition, hasText, className }))}
       {...props}
     >
-      {iconPosition === 'icon-left' && icon && (
-        <span className={iconClass}>{icon}</span>
+      {icon && iconPosition === 'icon-left' && (
+        <span className="w-5 h-5 flex items-center justify-center">{icon}</span>
       )}
-      {iconPosition !== 'icon-only' && children}
-      {iconPosition === 'icon-right' && icon && (
-        <span className={iconClass}>{icon}</span>
+      {hasText && (text || children)}
+      {icon && iconPosition === 'icon-right' && (
+        <span className="w-5 h-5 flex items-center justify-center">{icon}</span>
       )}
-      {iconPosition === 'icon-only' && icon && (
-        <span className={iconClass}>{icon}</span>
+      {!hasText && icon && (
+        <span className="w-5 h-5 flex items-center justify-center">{icon}</span>
       )}
     </button>
   );
 };
 
-export { Button, buttonVariants }; 
+export { Button }; 

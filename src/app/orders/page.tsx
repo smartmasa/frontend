@@ -6,6 +6,7 @@ import { Button } from '@/app/components/Button';
 import { OrderCard } from '@/app/components/OrderCard';
 import LanguageButton, { Language } from '@/app/components/LanguageButton';
 import { useOrder } from '@/contexts/OrderContext';
+import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 
 export default function OrdersPage() {
   const router = useRouter();
@@ -26,11 +27,9 @@ export default function OrdersPage() {
               onClick={() => router.back()}
               className="mr-4 text-secondary-500"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
+              <ArrowLeftIcon className="h-6 w-6" />
             </button>
-            <h1 className="text-xl font-semibold text-secondary-500">My orders</h1>
+            <h1 className="text-lg font-semibold text-secondary-500">My orders</h1>
           </div>
           <LanguageButton
             selectedLanguage={selectedLanguage}
@@ -57,14 +56,14 @@ export default function OrdersPage() {
             variant="secondary"
             className="flex-1"
             onClick={() => router.push('/menu')}
-          >
-            Edit order
-          </Button>
+            text="Edit order"
+          />
           <Button
             variant="primary"
-            className="flex-1"
+            className="flex-1 flex justify-between"
           >
-            Pay ${calculateTotal().toFixed(2)}
+            <span>Order</span>
+            <span>${calculateTotal().toFixed(2)}</span>
           </Button>
         </div>
       </div>
