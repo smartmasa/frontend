@@ -7,29 +7,16 @@ import { Button } from '@/app/components/Button';
 import { useState } from 'react';
 import Tab from '@/app/components/Tab';
 import Image from 'next/image';
-import LanguageTab from '@/app/components/LanguageTab';
+import LanguageButton, { Language } from '@/app/components/LanguageButton';
 
 interface MealQuantities {
   [mealId: string]: number;
 }
 
-interface Language {
-  code: string;
-  name: string;
-}
-
-const languages: Language[] = [
-  { code: 'az', name: 'Azerbaijani' },
-  { code: 'ru', name: 'Russian' },
-  { code: 'tr', name: 'Turkish' },
-  { code: 'uk', name: 'English' },
-];
-
 export default function MenuPage() {
   const [mealQuantities, setMealQuantities] = useState<MealQuantities>({});
   const [activeCategory, setActiveCategory] = useState('all');
-  const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
+  const [selectedLanguage, setSelectedLanguage] = useState<Language>({ code: 'az', name: 'Azerbaijani' });
 
   const handleQuantityChange = (mealId: string, newQuantity: number) => {
     setMealQuantities(prev => ({
@@ -63,53 +50,12 @@ export default function MenuPage() {
         <div className="bg-white shadow-sm">
           <div className="max-w-7xl mx-auto px-4 pt-2 flex justify-between items-center">
             <h1 className="text-xl font-bold">LOGO</h1>
-            <button
-              onClick={() => setIsLanguageModalOpen(true)}
-              className="flex items-center gap-2 p-2 hover:bg-gray-50 rounded-lg"
-            >
-              <Image 
-                src={`/flags/${selectedLanguage.code}.svg`}
-                alt={`${selectedLanguage.name} flag`}
-                width={24}
-                height={24}
-                className="rounded-full"
-              />
-            </button>
+            <LanguageButton
+              selectedLanguage={selectedLanguage}
+              onLanguageChange={setSelectedLanguage}
+            />
           </div>
         </div>
-
-        {/* Language Selection Modal */}
-        {isLanguageModalOpen && (
-          <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-            <div className="bg-secondary-50 rounded-2xl w-full max-w-md">
-              <div className="p-4 flex justify-between items-center border-b">
-                <h2 className="text-xl font-semibold text-secondary-500">Select language</h2>
-                <button
-                  onClick={() => setIsLanguageModalOpen(false)}
-                  className="p-2 hover:bg-gray-100 rounded-lg"
-                >
-                  <XMarkIcon className="w-6 h-6 text-gray-500" />
-                </button>
-              </div>
-              <div className="p-6">
-                <div className="grid grid-cols-2 gap-4">
-                  {languages.map((language) => (
-                    <LanguageTab
-                      key={language.code}
-                      code={language.code}
-                      name={language.name}
-                      isSelected={selectedLanguage.code === language.code}
-                      onClick={() => {
-                        setSelectedLanguage(language);
-                        setIsLanguageModalOpen(false);
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Scrollable tabs */}
         <div className="sticky top-0 bg-white shadow-sm z-10">
