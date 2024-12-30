@@ -198,23 +198,12 @@ export default function MenuPage() {
 
         {/* Fixed bottom bar */}
         <div className="fixed bottom-0 left-0 right-0 p-4 bg-white shadow-lg">
-          <div className="max-w-7xl mx-auto flex justify-between gap-4">
-            <Button
-              variant="secondary"
-              iconPosition="icon-left"
-              icon={<PhoneIcon />}
-              className="flex-1"
-            >
-              Call waiter
-            </Button>
-            
+          <div className="max-w-7xl mx-auto">
             <Button
               variant="primary"
-              iconPosition="icon-left"
-              icon={<ShoppingCartIcon />}
-              className="flex-1"
+              className="w-full"
             >
-              Cart <span className="ml-2 font-semibold">${total.toFixed(2)}</span>
+              View Order <span className="ml-2 font-semibold">${total.toFixed(2)}</span>
             </Button>
           </div>
         </div>
