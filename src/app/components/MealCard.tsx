@@ -11,6 +11,7 @@ interface MealCardProps {
   name: string;
   description: string;
   price: number;
+  currency: string;
   cookingTime: string;
   imageUrl: string;
   isFavorite?: boolean;
@@ -23,6 +24,7 @@ const MealCard = ({
   name,
   description,
   price,
+  currency,
   cookingTime,
   imageUrl,
   isFavorite = false,
@@ -86,7 +88,7 @@ const MealCard = ({
               <span className="text-xs text-gray-500">{cookingTime}</span>
             </div>
             <span className="text-sm font-semibold text-primary-500">
-              {formatPrice(price)}
+              {formatPrice(price, currency)}
             </span>
           </div>
           
