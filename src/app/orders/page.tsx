@@ -18,6 +18,9 @@ export default function OrdersPage() {
     return orderItems.reduce((total, item) => total + (item.price * item.quantity), 0);
   };
 
+  // Get currency from the first order item, or fallback to a default
+  const currency = orderItems[0]?.currency
+
   const handleFinish = () => {
     setIsConfirmationOpen(true);
   };
@@ -52,7 +55,7 @@ export default function OrdersPage() {
             onClick={handleFinish}
           >
             <span>Finish</span>
-            <span>{formatPrice(calculateTotal())}</span>
+            <span>{formatPrice(calculateTotal(), currency)}</span>
           </Button>
         </div>
       </div>

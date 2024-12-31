@@ -8,6 +8,7 @@ interface OrderItem {
   id: string;
   name: string;
   price: number;
+  currency: string;
   quantity: number;
   imageUrl: string;
 }
@@ -34,7 +35,7 @@ export function OrderCard({ item, onQuantityChange }: OrderCardProps) {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-semibold text-secondary-500">{item.name}</h3>
-              <p className="text-secondary-500">{formatPrice(item.price)}</p>
+              <p className="text-secondary-500">{formatPrice(item.price, item.currency)}</p>
             </div>
             <div className="flex items-center border border-orange-500 rounded-full h-10 justify-center">
               <button
