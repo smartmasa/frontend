@@ -118,8 +118,8 @@ export default function MenuPage() {
   };
 
   const total = orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  // Use the currency from the first order item
-  const currency = orderItems[0].currency;
+  // Use the currency from the first meal in the menu
+  const currency = menuData[0]?.meals[0]?.price.currency
 
   if (isLoading) {
     return (
