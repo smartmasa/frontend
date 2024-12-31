@@ -1,17 +1,17 @@
 "use client";
 
 import MealCard from '@/app/components/MealCard';
-import { menuData } from '@/data/meals';
 import { Button } from '@/app/components/Button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Tab from '@/app/components/Tab';
 import HeaderWithLogo from '@/app/components/HeaderWithLogo';
 import { useRouter } from 'next/navigation';
 import { useOrder } from '@/contexts/OrderContext';
 import { formatPrice } from '@/lib/formatters';
+import { fetchMenu, type Category } from '@/services/menuService';
 
 interface CategorySectionProps {
-  category: typeof menuData[0];
+  category: Category;
   gridClassName?: string;
 }
 
@@ -20,17 +20,15 @@ function CategorySection({ category, gridClassName }: CategorySectionProps) {
   
   const handleQuantityChange = (mealId: string, newQuantity: number) => {
     const existingItem = orderItems.find(item => item.id === mealId);
-    if (!existingItem && newQuantity > 0) {
-      // Find the meal data
-      const meal = menuData
-        .flatMap(category => category.meals)
-        .find(meal => meal.id === mealId);
+    if (!existingItem && newQuantity > 0 && mealId) {
+      // Find the meal data from the category
+      const meal = category.meals.find(meal => meal.id === mealId);
       
       if (meal) {
         addToOrder({
-          id: meal.id,
+          id: meal.id!,
           name: meal.name,
-          price: meal.price,
+          price: meal.price.amount,
           quantity: newQuantity,
           imageUrl: meal.imageUrl,
         });
@@ -47,21 +45,23 @@ function CategorySection({ category, gridClassName }: CategorySectionProps) {
       </h2>
       
       <div className={gridClassName || "grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-y-8 px-4 justify-items-center"}>
-        {category.meals.map((meal) => (
-          <MealCard
-            key={meal.id}
-            name={meal.name}
-            description={meal.description}
-            price={meal.price}
-            imageUrl={meal.imageUrl}
-            cookingTime={meal.cookingTime}
-            isFavorite={meal.isFavorite}
-            isSpicy={meal.isSpicy}
-            quantity={orderItems.find(item => item.id === meal.id)?.quantity || 0}
-            onQuantityChange={(newQuantity) => 
-              handleQuantityChange(meal.id, newQuantity)
-            }
-          />
+        {category.meals && category.meals.map((meal) => (
+          meal && meal.id && (
+            <MealCard
+              key={meal.id}
+              name={meal.name}
+              description={meal.description}
+              price={meal.price.amount}
+              imageUrl={meal.imageUrl}
+              cookingTime={meal.cookingTime}
+              isFavorite={meal.isFavorite}
+              isSpicy={meal.isSpicy}
+              quantity={orderItems.find(item => item.id === meal.id)?.quantity || 0}
+              onQuantityChange={(newQuantity) => 
+                handleQuantityChange(meal.id!, newQuantity)
+              }
+            />
+          )
         ))}
       </div>
     </div>
@@ -72,6 +72,25 @@ export default function MenuPage() {
   const router = useRouter();
   const { orderItems, updateQuantity, addToOrder } = useOrder();
   const [activeCategory, setActiveCategory] = useState('all');
+  const [menuData, setMenuData] = useState<Category[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadMenu = async () => {
+      try {
+        const data = await fetchMenu();
+        setMenuData(data.categories);
+      } catch (err) {
+        console.error('Error fetching menu:', err);
+        setError(err instanceof Error ? err.message : 'An error occurred while fetching the menu');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadMenu();
+  }, []);
 
   const handleQuantityChange = (mealId: string, newQuantity: number) => {
     const existingItem = orderItems.find(item => item.id === mealId);
@@ -83,9 +102,9 @@ export default function MenuPage() {
       
       if (meal) {
         addToOrder({
-          id: meal.id,
+          id: meal.id!,
           name: meal.name,
-          price: meal.price,
+          price: meal.price.amount,
           quantity: newQuantity,
           imageUrl: meal.imageUrl,
         });
@@ -96,6 +115,22 @@ export default function MenuPage() {
   };
 
   const total = orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-red-500">Error: {error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto max-w-7xl">
@@ -124,26 +159,26 @@ export default function MenuPage() {
           </div>
         </div>
 
-          <div className="max-w-7xl mx-auto">
-            {activeCategory === 'all' ? (
-              menuData.map((category) => (
+        <div className="max-w-7xl mx-auto">
+          {activeCategory === 'all' ? (
+            menuData.map((category) => (
+              <CategorySection
+                key={category.id}
+                category={category}
+              />
+            ))
+          ) : (
+            menuData.map((category) => (
+              category.id === activeCategory && (
                 <CategorySection
                   key={category.id}
                   category={category}
+                  gridClassName="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-y-8 px-4"
                 />
-              ))
-            ) : (
-              menuData.map((category) => (
-                category.id === activeCategory && (
-                  <CategorySection
-                    key={category.id}
-                    category={category}
-                    gridClassName="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-y-8 px-4"
-                  />
-                )
-              ))
-            )}
-          </div>
+              )
+            ))
+          )}
+        </div>
 
         {/* Fixed bottom bar */}
         <div className="fixed bottom-0 left-0 right-0 p-4 bg-white shadow-lg">
