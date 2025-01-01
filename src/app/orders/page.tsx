@@ -8,26 +8,47 @@ import { formatPrice } from '@/lib/formatters';
 import { useState } from 'react';
 import { OrderConfirmationModal } from '@/app/components/OrderConfirmationModal';
 import { HeaderWithBack } from '@/app/components/HeaderWithBack';
+import { placeOrder } from '@/services/orderService';
 
 export default function OrdersPage() {
   const router = useRouter();
   const { orderItems, updateQuantity } = useOrder();
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const calculateTotal = () => {
     return orderItems.reduce((total, item) => total + (item.price * item.quantity), 0);
   };
 
   // Get currency from the first order item, or fallback to a default
-  const currency = orderItems[0]?.currency
+  const currency = orderItems[0]?.currency || 'AZN';
 
-  const handleFinish = () => {
-    setIsConfirmationOpen(true);
+  const handleFinish = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      
+      const response = await placeOrder(orderItems);
+      
+      // If order is successful, show confirmation modal
+      setIsConfirmationOpen(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to place order');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
       <HeaderWithBack title="My orders" />
+
+      {error && (
+        <div className="p-4 bg-red-100 text-red-700 mb-4">
+          {error}
+        </div>
+      )}
 
       {/* Order Items */}
       <div className="p-4 space-y-4">
@@ -48,13 +69,15 @@ export default function OrdersPage() {
             className="flex-1"
             onClick={() => router.push('/menu')}
             text="Edit"
+            disabled={isLoading}
           />
           <Button
             variant="primary"
             className="flex-1 flex justify-between"
             onClick={handleFinish}
+            disabled={isLoading || orderItems.length === 0}
           >
-            <span>Finish</span>
+            <span>{isLoading ? 'Placing Order...' : 'Finish'}</span>
             <span>{formatPrice(calculateTotal(), currency)}</span>
           </Button>
         </div>
@@ -66,7 +89,7 @@ export default function OrdersPage() {
         onViewOrder={() => {
           setIsConfirmationOpen(false);
           // Here you would typically navigate to an order tracking page
-          // For now, we'll just close the modal
+          router.push('/order-status');
         }}
       />
     </div>
