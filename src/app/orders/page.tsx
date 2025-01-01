@@ -21,9 +21,6 @@ export default function OrdersPage() {
     return orderItems.reduce((total, item) => total + (item.price * item.quantity), 0);
   };
 
-  // Get currency from the first order item, or fallback to a default
-  const currency = orderItems[0]?.currency || 'AZN';
-
   const handleFinish = async () => {
     try {
       setIsLoading(true);
@@ -78,7 +75,7 @@ export default function OrdersPage() {
             disabled={isLoading || orderItems.length === 0}
           >
             <span>{isLoading ? 'Placing Order' : 'Finish'}</span>
-            <span>{isLoading ? '...' : formatPrice(calculateTotal(), currency)}</span>
+            <span>{isLoading ? '...' : formatPrice(calculateTotal())}</span>
           </Button>
         </div>
       </div>

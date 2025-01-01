@@ -29,7 +29,6 @@ function CategorySection({ category, gridClassName }: CategorySectionProps) {
           id: meal.id!,
           name: meal.name,
           price: meal.price.amount,
-          currency: meal.price.currency,
           quantity: newQuantity,
           imageUrl: meal.imageUrl,
         });
@@ -53,7 +52,6 @@ function CategorySection({ category, gridClassName }: CategorySectionProps) {
               name={meal.name}
               description={meal.description}
               price={meal.price.amount}
-              currency={meal.price.currency}
               imageUrl={meal.imageUrl}
               cookingTime={meal.cookingTime}
               isFavorite={meal.isFavorite}
@@ -107,7 +105,6 @@ export default function MenuPage() {
           id: meal.id!,
           name: meal.name,
           price: meal.price.amount,
-          currency: meal.price.currency,
           quantity: newQuantity,
           imageUrl: meal.imageUrl,
         });
@@ -118,8 +115,6 @@ export default function MenuPage() {
   };
 
   const total = orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  // Use the currency from the first meal in the menu
-  const currency = menuData[0]?.meals[0]?.price.currency
 
   if (isLoading) {
     return (
@@ -196,7 +191,7 @@ export default function MenuPage() {
             >
               <div className="flex justify-between items-center w-full">
                 <span>View Order</span>
-                <span>{formatPrice(total, currency)}</span>
+                <span>{formatPrice(total)}</span>
               </div>
             </Button>
           </div>

@@ -31,7 +31,7 @@ export const placeOrder = async (orderItems: OrderItem[]): Promise<PlaceOrderRes
     })),
     totalPrice: {
       amount: totalPrice,
-      currency: orderItems[0]?.currency || 'AZN'
+      currency: process.env.BASE_CURRENCY || 'AZN'
     }
   };
 
