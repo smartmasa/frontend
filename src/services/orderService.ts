@@ -1,4 +1,4 @@
-import { OrderItem } from '@/types/order';
+import { OrderItem } from '@/contexts/OrderContext';
 
 interface PlaceOrderRequest {
   items: {
@@ -35,8 +35,7 @@ export const placeOrder = async (orderItems: OrderItem[]): Promise<PlaceOrderRes
     }
   };
 
-  console.log(requestBody);
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/order`, {
+  const response = await fetch(`/api/order`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
