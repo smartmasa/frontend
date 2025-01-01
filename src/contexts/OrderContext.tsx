@@ -27,6 +27,13 @@ const OrderContext = createContext<OrderContextType | undefined>(undefined);
 
 const STORAGE_KEY = 'smartmasa_order';
 
+// Standalone function to clear order from storage
+export const clearCurrentOrder = () => {
+  if (typeof window !== 'undefined') {
+    sessionStorage.removeItem(STORAGE_KEY);
+  }
+};
+
 export function OrderProvider({ children }: { children: ReactNode }) {
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
 

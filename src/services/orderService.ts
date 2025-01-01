@@ -1,4 +1,4 @@
-import { OrderItem } from '@/contexts/OrderContext';
+import { OrderItem, clearCurrentOrder } from '@/contexts/OrderContext';
 
 interface PlaceOrderRequest {
   items: {
@@ -46,6 +46,10 @@ export const placeOrder = async (orderItems: OrderItem[]): Promise<PlaceOrderRes
   if (!response.ok) {
     const error = await response.json();
     throw new Error(error.message || 'Failed to place order');
+  }
+
+  if (response.status === 201) {
+    clearCurrentOrder();
   }
 
   return response.json();

@@ -77,8 +77,8 @@ export default function OrdersPage() {
             onClick={handleFinish}
             disabled={isLoading || orderItems.length === 0}
           >
-            <span>{isLoading ? 'Placing Order...' : 'Finish'}</span>
-            <span>{formatPrice(calculateTotal(), currency)}</span>
+            <span>{isLoading ? 'Placing Order' : 'Finish'}</span>
+            <span>{isLoading ? '...' : formatPrice(calculateTotal(), currency)}</span>
           </Button>
         </div>
       </div>
