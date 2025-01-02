@@ -12,7 +12,7 @@ import { placeOrder } from '@/services/orderService';
 
 export default function OrdersPage() {
   const router = useRouter();
-  const { orderItems, updateQuantity } = useOrder();
+  const { orderItems, updateQuantity, clearOrder } = useOrder();
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -28,7 +28,10 @@ export default function OrdersPage() {
       
       const response = await placeOrder(orderItems);
       
-      // If order is successful, show confirmation modal
+      // Clear the order after successful placement
+      clearOrder();
+      
+      // Show confirmation modal
       setIsConfirmationOpen(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to place order');
