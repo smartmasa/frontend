@@ -1,26 +1,4 @@
-export interface Category {
-  id: string;
-  name: string;
-  meals: Meal[];
-}
-
-export interface Meal {
-  id: string;
-  name: string;
-  description: string;
-  price: {
-    amount: number;
-    currency: string;
-  };
-  imageUrl: string;
-  cookingTime: string;
-  isFavorite: boolean;
-  isSpicy: boolean;
-}
-
-export interface MenuResponse {
-  categories: Category[];
-}
+import { MenuResponse } from '../types/menu';
 
 export async function fetchMenu(): Promise<MenuResponse> {
   const response = await fetch('/api/menu', {

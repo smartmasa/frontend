@@ -1,4 +1,4 @@
-import { OrderItem } from '@/contexts/OrderContext';
+import { OrderItem } from '@/types/item';
 
 interface PlaceOrderRequest {
   tableId: string;
