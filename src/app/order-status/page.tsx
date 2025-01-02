@@ -76,11 +76,11 @@ export default function OrderStatusPage() {
       <div className="p-4 space-y-4">
         {orders.map((order) => (
           <div key={order.orderId} className="space-y-4">
-            {order.items.map((item, index) => (
+            {order.items.map((item) => (
               <OrderItemCard
-                key={`${order.orderId}-${index}`}
+                key={`${order.orderId}-${item.meal.id}`}
                 name={item.meal.name}
-                price={item.meal.price.amount}
+                price={item.meal.price}
                 quantity={item.quantity}
                 imageUrl={item.meal.imageUrl}
               />
@@ -105,7 +105,7 @@ export default function OrderStatusPage() {
           >
             <div className="flex justify-between items-center w-full">
               <span>Pay</span>
-              <span>{formatPrice(totalPrice.amount)}</span>
+              <span>{formatPrice(totalPrice)}</span>
             </div>
           </Button>
         </div>

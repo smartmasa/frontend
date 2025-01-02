@@ -5,6 +5,7 @@ import { Button } from '@/app/components/Button';
 import { OrderCard } from '@/app/components/OrderCard';
 import { useOrder } from '@/contexts/OrderContext';
 import { formatPrice } from '@/lib/formatters';
+import { calculateTotal } from '@/lib/utils';
 import { useState } from 'react';
 import { OrderConfirmationModal } from '@/app/components/OrderConfirmationModal';
 import { HeaderWithBack } from '@/app/components/HeaderWithBack';
@@ -16,10 +17,6 @@ export default function OrdersPage() {
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const calculateTotal = () => {
-    return orderItems.reduce((total, item) => total + (item.price * item.quantity), 0);
-  };
 
   const handleFinish = async () => {
     try {
@@ -78,7 +75,7 @@ export default function OrdersPage() {
             disabled={isLoading || orderItems.length === 0}
           >
             <span>{isLoading ? 'Placing Order' : 'Finish'}</span>
-            <span>{isLoading ? '...' : formatPrice(calculateTotal())}</span>
+            <span>{isLoading ? '...' : formatPrice(calculateTotal(orderItems))}</span>
           </Button>
         </div>
       </div>

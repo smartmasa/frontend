@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { formatPrice } from '@/lib/formatters';
 import { CardContainer } from './common/CardContainer';
-import { OrderItem } from '@/types/item';
+import { OrderItem } from '@/types/order';
 
 type OrderItemCardProps = Omit<OrderItem, 'id' | 'comment'>;
 

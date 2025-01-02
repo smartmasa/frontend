@@ -7,7 +7,7 @@ import { CardContainer } from './common/CardContainer';
 import { QuantityControl } from './common/QuantityControl';
 import { IconBadge } from './common/IconBadge';
 import { TimeDisplay } from './common/TimeDisplay';
-import { MenuItem } from '@/types/item';
+import { MenuItem } from '@/types/menu';
 
 interface MealCardProps extends Omit<MenuItem, 'id'> {
   quantity: number;

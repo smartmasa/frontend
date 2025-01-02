@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { OrderItem } from '@/types/item';
+import { OrderItem } from '@/types/order';
 
 interface OrderContextType {
   orderItems: OrderItem[];

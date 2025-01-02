@@ -8,7 +8,9 @@ import HeaderWithLogo from '@/app/components/HeaderWithLogo';
 import { useRouter } from 'next/navigation';
 import { useOrder } from '@/contexts/OrderContext';
 import { formatPrice } from '@/lib/formatters';
-import { fetchMenu, type Category } from '@/services/menuService';
+import { calculateTotal } from '@/lib/utils';
+import { fetchMenu } from '@/services/menuService';
+import { Category, MenuItem } from '@/types/menu';
 
 interface CategorySectionProps {
   category: Category;
@@ -22,13 +24,13 @@ function CategorySection({ category, gridClassName }: CategorySectionProps) {
     const existingItem = orderItems.find(item => item.id === mealId);
     if (!existingItem && newQuantity > 0 && mealId) {
       // Find the meal data from the category
-      const meal = category.meals.find(meal => meal.id === mealId);
+      const meal = category.meals.find((meal: MenuItem) => meal.id === mealId);
       
       if (meal) {
         addToOrder({
           id: meal.id!,
           name: meal.name,
-          price: meal.price.amount,
+          price: meal.price,
           quantity: newQuantity,
           imageUrl: meal.imageUrl,
         });
@@ -51,7 +53,7 @@ function CategorySection({ category, gridClassName }: CategorySectionProps) {
               key={meal.id}
               name={meal.name}
               description={meal.description}
-              price={meal.price.amount}
+              price={meal.price}
               imageUrl={meal.imageUrl}
               cookingTime={meal.cookingTime}
               isFavorite={meal.isFavorite}
@@ -104,7 +106,7 @@ export default function MenuPage() {
         addToOrder({
           id: meal.id!,
           name: meal.name,
-          price: meal.price.amount,
+          price: meal.price,
           quantity: newQuantity,
           imageUrl: meal.imageUrl,
         });
@@ -114,7 +116,7 @@ export default function MenuPage() {
     }
   };
 
-  const total = orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const total = calculateTotal(orderItems);
 
   if (isLoading) {
     return (
@@ -187,7 +189,7 @@ export default function MenuPage() {
               variant="primary"
               className="w-full"
               onClick={() => router.push('/orders')}
-              disabled={total === 0}
+              disabled={total.amount === 0}
             >
               <div className="flex justify-between items-center w-full">
                 <span>View Order</span>

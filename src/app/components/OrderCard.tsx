@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { formatPrice } from '@/lib/formatters';
 import { CardContainer } from './common/CardContainer';
 import { QuantityControl } from './common/QuantityControl';
-import { OrderItem } from '@/types/item';
+import { OrderItem } from '@/types/order';
 
 interface OrderCardProps {
   item: OrderItem;
