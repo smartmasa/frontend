@@ -49,11 +49,11 @@ export default function OrdersPage() {
 
       {/* Order Items */}
       <div className="p-4 space-y-4">
-        {orderItems.map((item) => (
+        {orderItems.map((item, index) => (
           <OrderCard
-            key={item.id}
+            key={`${item.mealId}-${index}`}
             item={item}
-            onQuantityChange={(id, quantity) => updateQuantity(id, quantity)}
+            onQuantityChange={(mealId, quantity) => updateQuantity(mealId, quantity)}
           />
         ))}
       </div>

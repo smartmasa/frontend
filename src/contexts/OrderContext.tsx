@@ -7,7 +7,7 @@ interface OrderContextType {
   orderItems: OrderItem[];
   setOrderItems: (items: OrderItem[]) => void;
   addToOrder: (item: OrderItem) => void;
-  updateQuantity: (id: string, quantity: number) => void;
+  updateQuantity: (mealId: string, quantity: number) => void;
   clearOrder: () => void;
 }
 
@@ -41,10 +41,10 @@ export function OrderProvider({ children }: { children: ReactNode }) {
 
   const addToOrder = (newItem: OrderItem) => {
     setOrderItems(items => {
-      const existingItem = items.find(item => item.id === newItem.id);
+      const existingItem = items.find(item => item.mealId === newItem.mealId);
       return existingItem
         ? items.map(item =>
-            item.id === newItem.id
+            item.mealId === newItem.mealId
               ? { ...item, quantity: item.quantity + newItem.quantity }
               : item
           )
@@ -52,10 +52,10 @@ export function OrderProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const updateQuantity = (id: string, quantity: number) => {
+  const updateQuantity = (mealId: string, quantity: number) => {
     setOrderItems(items =>
       items
-        .map(item => item.id === id ? { ...item, quantity } : item)
+        .map(item => item.mealId === mealId ? { ...item, quantity } : item)
         .filter(item => item.quantity > 0)
     );
   };

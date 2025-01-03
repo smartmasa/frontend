@@ -21,14 +21,14 @@ function CategorySection({ category, gridClassName }: CategorySectionProps) {
   const { orderItems, updateQuantity, addToOrder } = useOrder();
   
   const handleQuantityChange = (mealId: string, newQuantity: number) => {
-    const existingItem = orderItems.find(item => item.id === mealId);
+    const existingItem = orderItems.find(item => item.mealId === mealId);
     if (!existingItem && newQuantity > 0 && mealId) {
       // Find the meal data from the category
       const meal = category.meals.find((meal: MenuItem) => meal.id === mealId);
       
       if (meal) {
         addToOrder({
-          id: meal.id!,
+          mealId: meal.id!,
           name: meal.name,
           price: meal.price,
           quantity: newQuantity,
@@ -58,7 +58,7 @@ function CategorySection({ category, gridClassName }: CategorySectionProps) {
               cookingTime={meal.cookingTime}
               isFavorite={meal.isFavorite}
               isSpicy={meal.isSpicy}
-              quantity={orderItems.find(item => item.id === meal.id)?.quantity || 0}
+              quantity={orderItems.find(item => item.mealId === meal.id)?.quantity || 0}
               onQuantityChange={(newQuantity) => 
                 handleQuantityChange(meal.id!, newQuantity)
               }
@@ -95,7 +95,7 @@ export default function MenuPage() {
   }, []);
 
   const handleQuantityChange = (mealId: string, newQuantity: number) => {
-    const existingItem = orderItems.find(item => item.id === mealId);
+    const existingItem = orderItems.find(item => item.mealId === mealId);
     if (!existingItem && newQuantity > 0) {
       // Find the meal data
       const meal = menuData
@@ -104,7 +104,7 @@ export default function MenuPage() {
       
       if (meal) {
         addToOrder({
-          id: meal.id!,
+          mealId: meal.id!,
           name: meal.name,
           price: meal.price,
           quantity: newQuantity,

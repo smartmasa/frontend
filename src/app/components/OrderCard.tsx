@@ -8,8 +8,8 @@ import { OrderItem } from '@/types/order';
 
 interface OrderCardProps {
   item: OrderItem;
-  onQuantityChange: (id: string, newQuantity: number) => void;
-  onCommentChange?: (id: string, comment: string) => void;
+  onQuantityChange: (mealId: string, newQuantity: number) => void;
+  onCommentChange?: (mealId: string, comment: string) => void;
 }
 
 export function OrderCard({ 
@@ -18,11 +18,11 @@ export function OrderCard({
   onCommentChange 
 }: OrderCardProps) {
   const handleQuantityChange = (newQuantity: number) => {
-    onQuantityChange(item.id, newQuantity);
+    onQuantityChange(item.mealId, newQuantity);
   };
 
   const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    onCommentChange?.(item.id, event.target.value);
+    onCommentChange?.(item.mealId, event.target.value);
   };
 
   return (

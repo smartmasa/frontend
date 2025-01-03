@@ -3,7 +3,7 @@ import { OrderItem } from '@/types/order';
 interface PlaceOrderRequest {
   tableId: string;
   items: {
-    id: string;
+    mealId: string;
     quantity: number;
   }[];
   totalPrice: {
@@ -61,7 +61,7 @@ export const placeOrder = async (orderItems: OrderItem[]): Promise<PlaceOrderRes
   const requestBody: PlaceOrderRequest = {
     tableId: "6775d3967e65c4a0753e1083",
     items: orderItems.map(item => ({
-      id: item.id,
+      mealId: item.mealId,
       quantity: item.quantity
     })),
     totalPrice: {

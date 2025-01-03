@@ -3,7 +3,7 @@ import { formatPrice } from '@/lib/formatters';
 import { CardContainer } from './common/CardContainer';
 import { OrderItem } from '@/types/order';
 
-type OrderItemCardProps = Omit<OrderItem, 'id' | 'comment'>;
+type OrderItemCardProps = Omit<OrderItem, 'mealId' | 'comment'>;
 
 export function OrderItemCard({ name, price, quantity, imageUrl }: OrderItemCardProps) {
   return (
