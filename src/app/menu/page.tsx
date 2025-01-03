@@ -46,7 +46,7 @@ function CategorySection({ category, gridClassName }: CategorySectionProps) {
         {category.name}
       </h2>
       
-      <div className={gridClassName || "grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-y-6 px-4 justify-items-center"}>
+      <div className={gridClassName || "grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-y-6 px-2 justify-items-center"}>
         {category.meals && category.meals.map((meal) => (
           meal && meal.id && (
             <MealCard
