@@ -13,7 +13,7 @@ import { placeOrder } from '@/services/orderService';
 
 export default function OrdersPage() {
   const router = useRouter();
-  const { orderItems, updateQuantity, clearOrder } = useOrder();
+  const { orderItems, updateQuantity, clearOrder, tableId } = useOrder();
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -23,7 +23,7 @@ export default function OrdersPage() {
       setIsLoading(true);
       setError(null);
       
-      const response = await placeOrder(orderItems);
+      const response = await placeOrder(orderItems, tableId);
       
       // Clear the order after successful placement
       clearOrder();

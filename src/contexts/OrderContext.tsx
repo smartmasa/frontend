@@ -9,26 +9,29 @@ interface OrderContextType {
   addToOrder: (item: OrderItem) => void;
   updateQuantity: (mealId: string, quantity: number) => void;
   clearOrder: () => void;
+  tableId: string;
+  setTableId: (id: string) => void;
 }
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
 
 const STORAGE_KEY = 'smartmasa_order';
-
-
-
-
-
-
+const TABLE_ID_KEY = 'smartmasa_table_id';
 
 export function OrderProvider({ children }: { children: ReactNode }) {
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
+  const [tableId, setTableId] = useState<string>('');
 
   // Load from sessionStorage on client-side mount
   useEffect(() => {
     const savedOrder = sessionStorage.getItem(STORAGE_KEY);
+    const savedTableId = sessionStorage.getItem(TABLE_ID_KEY);
+    
     if (savedOrder) {
       setOrderItems(JSON.parse(savedOrder));
+    }
+    if (savedTableId) {
+      setTableId(savedTableId);
     }
   }, []);
 
@@ -38,6 +41,13 @@ export function OrderProvider({ children }: { children: ReactNode }) {
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(orderItems));
     }
   }, [orderItems]);
+
+  // Update sessionStorage whenever tableId changes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem(TABLE_ID_KEY, tableId);
+    }
+  }, [tableId]);
 
   const addToOrder = (newItem: OrderItem) => {
     setOrderItems(items => {
@@ -62,6 +72,7 @@ export function OrderProvider({ children }: { children: ReactNode }) {
 
   const clearOrder = () => {
     setOrderItems([]);
+    sessionStorage.removeItem(STORAGE_KEY);
   };
 
   return (
@@ -70,7 +81,9 @@ export function OrderProvider({ children }: { children: ReactNode }) {
       setOrderItems,
       addToOrder,
       updateQuantity,
-      clearOrder
+      clearOrder,
+      tableId,
+      setTableId
     }}>
       {children}
     </OrderContext.Provider>

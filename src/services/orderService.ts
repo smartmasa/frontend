@@ -55,11 +55,11 @@ interface OrdersResponse {
   };
 }
 
-export const placeOrder = async (orderItems: OrderItem[]): Promise<PlaceOrderResponse> => {
+export const placeOrder = async (orderItems: OrderItem[], tableId: string): Promise<PlaceOrderResponse> => {
   const totalPrice = orderItems.reduce((total, item) => total + (item.price.amount * item.quantity), 0);
   
   const requestBody: PlaceOrderRequest = {
-    tableId: "6775d3967e65c4a0753e1083",
+    tableId,
     items: orderItems.map(item => ({
       mealId: item.mealId,
       quantity: item.quantity
@@ -87,7 +87,7 @@ export const placeOrder = async (orderItems: OrderItem[]): Promise<PlaceOrderRes
 }
 
 export const getTableOrders = async (tableId: string): Promise<OrdersResponse> => {
-  const response = await fetch(`/api/order/table/6775d3967e65c4a0753e1083`, {
+  const response = await fetch(`/api/order/table/${tableId}`, {
     headers: {
       'Accept-Language': 'az',
     },

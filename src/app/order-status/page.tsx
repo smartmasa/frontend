@@ -7,6 +7,7 @@ import { OrderItemCard } from '@/app/components/OrderItemCard';
 import HeaderWithLogo from '@/app/components/HeaderWithLogo';
 import { Button } from '@/app/components/Button';
 import { useRouter } from 'next/navigation';
+import { useOrder } from '@/contexts/OrderContext';
 
 interface OrderStatusItem {
   meal: {
@@ -35,6 +36,7 @@ interface OrderStatus {
 
 export default function OrderStatusPage() {
   const router = useRouter();
+  const { tableId } = useOrder();
   const [orders, setOrders] = useState<OrderStatus[]>([]);
   const [totalPrice, setTotalPrice] = useState<{ amount: number; currency: string }>({ amount: 0, currency: 'AZN' });
   const [loading, setLoading] = useState(true);
@@ -43,7 +45,6 @@ export default function OrderStatusPage() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const tableId = '1'; // Mocked table ID
         const response = await getTableOrders(tableId);
         setOrders(response.orders);
         setTotalPrice(response.totalPrice);
@@ -55,7 +56,7 @@ export default function OrderStatusPage() {
     };
 
     fetchOrders();
-  }, []);
+  }, [tableId, router]);
 
   if (loading) {
     return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
