@@ -26,7 +26,7 @@ const MealCard = ({
   onQuantityChange,
 }: MealCardProps) => {
   return (
-    <CardContainer className="w-[160px] flex flex-col">
+    <CardContainer className="w-[180px] flex flex-col">
       <div className="relative">
         <Image
           src={imageUrl}
@@ -41,19 +41,19 @@ const MealCard = ({
         </div>
       </div>
 
-      <div className="px-2 py-2 flex flex-col h-full">
+      <div className="px-2 py-1 flex flex-col h-full">
         <h3 className="text-sm font-semibold text-gray-900 line-clamp-2">{name}</h3>
-        <p className="text-xs text-gray-600 flex-grow line-clamp-3 mt-1">{description}</p>
+        <p className="text-xs text-secondary-500 flex-grow line-clamp-3">{description}</p>
         
         <div className="flex flex-col gap-2 mt-auto pt-2">
           <div className="flex items-center justify-between">
             <TimeDisplay minutes={cookingTime} />
-            <span className="text-sm font-semibold text-primary-500">
+            <span className="text-xs font-semibold text-primary-500">
               {formatPrice(price)}
             </span>
           </div>
           
-          <div className="pt-2">
+          <div className="mt-auto py-2">
             <QuantityControl
               quantity={quantity}
               onQuantityChange={onQuantityChange}

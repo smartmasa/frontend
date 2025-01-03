@@ -20,7 +20,7 @@ export function OrderItemCard({ name, price, quantity, imageUrl }: OrderItemCard
         <div className="ml-4 flex-1">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="font-medium text-secondary-500">{name}</h3>
+              <h3 className="font-semibold text-secondary-500">{name}</h3>
               <p className="text-secondary-500">{formatPrice(price)}</p>
             </div>
             <div className="flex items-center justify-center">

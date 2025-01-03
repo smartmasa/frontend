@@ -30,13 +30,13 @@ export function QuantityControl({
             onClick={handleDecrement}
             aria-label="Decrease quantity"
           >
-            <MinusIcon className="w-4 h-4 text-gray-600" />
+            <MinusIcon className="w-4 h-4 text-secondary-500" />
           </button>
         ) : (
           <div />
         )}
         <button
-          className="w-8 h-8 rounded-lg bg-primary-500 text-white flex items-center justify-center"
+          className="w-8 h-8 rounded-lg bg-primary-500 text-secondary-500 flex items-center justify-center"
           onClick={handleIncrement}
           aria-label={quantity > 0 ? `Quantity: ${quantity}` : 'Add'}
         >
