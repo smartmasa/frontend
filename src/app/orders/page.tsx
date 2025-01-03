@@ -23,7 +23,7 @@ export default function OrdersPage() {
       setIsLoading(true);
       setError(null);
       
-      const response = await placeOrder(orderItems, tableId);
+      await placeOrder(orderItems, tableId);
       
       // Clear the order after successful placement
       clearOrder();

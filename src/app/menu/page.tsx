@@ -72,7 +72,7 @@ function CategorySection({ category, gridClassName }: CategorySectionProps) {
 
 export default function MenuPage() {
   const router = useRouter();
-  const { orderItems, updateQuantity, addToOrder } = useOrder();
+  const { orderItems } = useOrder();
   const [activeCategory, setActiveCategory] = useState('all');
   const [menuData, setMenuData] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -93,28 +93,6 @@ export default function MenuPage() {
 
     loadMenu();
   }, []);
-
-  const handleQuantityChange = (mealId: string, newQuantity: number) => {
-    const existingItem = orderItems.find(item => item.mealId === mealId);
-    if (!existingItem && newQuantity > 0) {
-      // Find the meal data
-      const meal = menuData
-        .flatMap(category => category.meals)
-        .find(meal => meal.id === mealId);
-      
-      if (meal) {
-        addToOrder({
-          mealId: meal.id!,
-          name: meal.name,
-          price: meal.price,
-          quantity: newQuantity,
-          imageUrl: meal.imageUrl,
-        });
-      }
-    } else {
-      updateQuantity(mealId, newQuantity);
-    }
-  };
 
   const total = calculateTotal(orderItems);
 

@@ -1,11 +1,6 @@
 'use client';
 
-import Image from 'next/image';
-import Link from 'next/link';
 import HeaderWithLogo from '@/app/components/HeaderWithLogo';
-import { useOrder } from '@/contexts/OrderContext';
-import { useEffect } from 'react';
-import { useParams } from 'next/navigation';
 
 export default function Home() {
   return (
