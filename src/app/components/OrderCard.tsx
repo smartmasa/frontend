@@ -24,10 +24,6 @@ export function OrderCard({
     onQuantityChange(item.mealId, newQuantity);
   };
 
-  const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    onCommentChange?.(item.mealId, event.target.value);
-  };
-
   return (
     <CardContainer className="p-4">
       <div className="space-y-3">
@@ -55,12 +51,11 @@ export function OrderCard({
           </div>
         </div>
         
-        <textarea
+        <input
+          type="text"
           value={item.comment}
-          onChange={handleCommentChange}
           placeholder={t('order.special_request_placeholder')}
-          rows={2}
-          className="w-full p-2 border-b text-xs border-gray-200 text-secondary-500 placeholder-gray-400 focus:outline-none focus:ring-0 focus:border-b-2 focus:border-orange-500 transition-colors bg-transparent resize-none min-h-[3.5rem] overflow-auto [white-space:pre-line]"
+          className="w-full p-2 border-b text-xs border-gray-200 text-secondary-500 placeholder-gray-400 focus:outline-none focus:ring-0 focus:border-b-2 focus:border-orange-500 transition-colors bg-transparent"
         />
       </div>
     </CardContainer>

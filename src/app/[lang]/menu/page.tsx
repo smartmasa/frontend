@@ -75,17 +75,34 @@ function CategorySection({ category, gridClassName }: CategorySectionProps) {
 export default function MenuPage() {
   const router = useRouter();
   const { orderItems } = useOrder();
-  const [activeCategory, setActiveCategory] = useState('all');
   const [menuData, setMenuData] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<string>('');
   const { t } = useTranslation();
+
+  const scrollToCategory = (categoryId: string) => {
+    const element = document.getElementById(`category-${categoryId}`);
+    if (element) {
+      const headerOffset = 80; // Approximate height of the sticky header
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+      setActiveTab(categoryId);
+    }
+  };
 
   useEffect(() => {
     const loadMenu = async () => {
       try {
         const data = await fetchMenu();
         setMenuData(data.categories);
+        // Set first tab as active by default
+        setActiveTab(data.categories[0].id);
       } catch (err) {
         console.error('Error fetching menu:', err);
         setError(err instanceof Error ? err.message : 'An error occurred while fetching the menu');
@@ -113,50 +130,34 @@ export default function MenuPage() {
 
   return (
     <div className="container mx-auto max-w-7xl">
-      <main className="min-h-screen pb-24 bg-gray-50">
+      <main className="min-h-screen pb-24 bg-gray-50 scroll-pt-20">
         <HeaderWithLogo />
 
         {/* Scrollable tabs */}
         <div className="sticky top-0 bg-white shadow-sm z-10">
           <div className="overflow-x-auto scrollbar-hide">
             <div className="flex gap-2 p-4 min-w-full">
-              <Tab
-                key="all"
-                label="All"
-                isActive={activeCategory === 'all'}
-                onClick={() => setActiveCategory('all')}
-              />
               {menuData.map((category) => (
                 <Tab
                   key={category.id}
                   label={category.name}
-                  isActive={activeCategory === category.id}
-                  onClick={() => setActiveCategory(category.id)}
+                  isActive={activeTab === category.id}
+                  onClick={() => scrollToCategory(category.id)}
                 />
               ))}
             </div>
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto">
-          {activeCategory === 'all' ? (
-            menuData.map((category) => (
+        <div className="max-w-7xl mx-auto pt-4">
+          {menuData.map((category) => (
+            <div id={`category-${category.id}`} key={category.id} className="scroll-mt-20">
               <CategorySection
-                key={category.id}
                 category={category}
+                gridClassName="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-y-6 justify-items-center"
               />
-            ))
-          ) : (
-            menuData.map((category) => (
-              category.id === activeCategory && (
-                <CategorySection
-                  key={category.id}
-                  category={category}
-                  gridClassName="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-y-6 justify-items-center"
-                />
-              )
-            ))
-          )}
+            </div>
+          ))}
         </div>
 
         {/* Fixed bottom bar */}
