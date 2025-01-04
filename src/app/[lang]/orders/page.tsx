@@ -69,15 +69,28 @@ export default function OrdersPage() {
 
       {/* Bottom Buttons */}
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-white shadow-lg">
-        <div className="max-w-7xl mx-auto flex gap-3">
+        <div className="max-w-7xl mx-auto">
           <Button
             variant="primary"
-            className="flex-1 flex justify-between"
+            className="w-full"
             onClick={handleFinish}
             disabled={isLoading || orderItems.length === 0}
           >
-            <span>{isLoading ? t('order.placing_order') : t('order.finish')}</span>
-            <span>{isLoading ? '...' : formatPrice(calculateTotal(orderItems).amount)}</span>
+            <div className="grid grid-cols-3 w-full items-center">
+              <div className="justify-self-start">
+                {orderItems.length > 0 && (
+                  <div className="flex items-center gap-2">
+                    <span className="bg-primary-900 rounded-full w-6 h-6 flex items-center justify-center text-xs text-primary-50">
+                      {orderItems.reduce((sum, item) => sum + item.quantity, 0)}
+                    </span>
+                  </div>
+                )}
+              </div>
+              <span className="justify-self-center">{isLoading ? t('order.placing_order') : t('order.finish')}</span>
+              <span className="justify-self-end min-w-[80px] text-right">
+                {isLoading ? '...' : formatPrice(calculateTotal(orderItems).amount)}
+              </span>
+            </div>
           </Button>
         </div>
       </div>

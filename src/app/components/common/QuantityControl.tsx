@@ -36,7 +36,7 @@ export function QuantityControl({
           <div />
         )}
         <button
-          className="w-8 h-8 rounded-lg bg-primary-500 text-secondary-500 flex items-center justify-center"
+          className="w-8 h-8 rounded-lg bg-primary-500 text-secondary-500 flex items-center justify-center font-semibold"
           onClick={handleIncrement}
           aria-label={quantity > 0 ? `Quantity: ${quantity}` : 'Add'}
         >

@@ -169,9 +169,18 @@ export default function MenuPage() {
               onClick={() => router.push('/orders')}
               disabled={total.amount === 0}
             >
-              <div className="flex justify-between items-center w-full">
-                <span>{t('menu.view_order')}</span>
-                <span>{formatPrice(total.amount)}</span>
+              <div className="grid grid-cols-3 w-full items-center">
+                <div className="justify-self-start">
+                  {orderItems.length > 0 && (
+                    <div className="flex items-center gap-2">
+                      <span className="bg-primary-900 rounded-full w-6 h-6 flex items-center justify-center text-xs text-primary-50">
+                        {orderItems.reduce((sum, item) => sum + item.quantity, 0)}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <span className="justify-self-center">{t('order.finish')}</span>
+                <span className="justify-self-end min-w-[80px] text-right">{formatPrice(total.amount)}</span>
               </div>
             </Button>
           </div>
