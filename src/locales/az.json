@@ -22,6 +22,7 @@
     "order_confirmed_description": "Sifarişiniz {{minutesMin}}-{{minutesMax}} dəqiqəyə hazır olacaq."
   },
   "order_status": {
+    "title": "Ödənməmiş sifarişlər",
     "new_order": "Yeni sifariş",
     "pay": "Ödə"
   }

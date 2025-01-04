@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { getTableOrders } from '@/services/orderService';
 import { formatPrice } from '@/lib/formatters';
 import { OrderItemCard } from '@/app/components/OrderItemCard';
-import HeaderWithLogo from '@/app/components/HeaderWithLogo';
+import { HeaderWithBack } from '@/app/components/HeaderWithBack';
 import { Button } from '@/app/components/Button';
 import { useRouter } from 'next/navigation';
 import { useOrder } from '@/contexts/OrderContext';
@@ -75,7 +75,7 @@ export default function OrderStatusPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <HeaderWithLogo />
+      <HeaderWithBack title={t('order_status.title')} />
       
       <div className="p-4 space-y-4">
         {orders.map((order) => (

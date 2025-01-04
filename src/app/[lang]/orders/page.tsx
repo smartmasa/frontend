@@ -20,7 +20,7 @@ export default function OrdersPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { t } = useTranslation();
-  const [estimatedTime, setEstimatedTime] = useState<number | null>(null);
+  const [estimatedTime, setEstimatedTime] = useState<number>(0);
 
   const handleFinish = async () => {
     try {

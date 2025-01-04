@@ -22,6 +22,7 @@
     "order_confirmed_description": "Your order will be ready in {{minutesMin}}-{{minutesMax}} minutes."
   },
   "order_status": {
+    "title": "Unpaid orders",
     "new_order": "New order",
     "pay": "Pay"
   }

@@ -22,6 +22,7 @@
     "order_confirmed_description": "Ваш заказ будет готов через {{minutesMin}}-{{minutesMax}} минут."
   },
   "order_status": {
+    "title": "Неоплаченные заказы",
     "new_order": "Новый заказ",
     "pay": "Оплатить"
   }
