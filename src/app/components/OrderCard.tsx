@@ -40,7 +40,7 @@ export function OrderCard({
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="font-semibold text-secondary-500">{item.name}</h3>
-                <p className="text-secondary-500">{formatPrice(item.price)}</p>
+                <p className="text-secondary-500">{formatPrice(item.price.amount)}</p>
               </div>
               <QuantityControl
                 quantity={item.quantity}

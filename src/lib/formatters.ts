@@ -1,3 +1,3 @@
-export const formatPrice = ({ amount, currency }: { amount: number; currency: string }): string => {
-  return `${amount.toFixed(2)} ${currency}`;
+export const formatPrice = (amount: number): string => {
+  return `${amount.toFixed(2)} ${process.env.NEXT_PUBLIC_BASE_CURRENCY}`;
 }; 

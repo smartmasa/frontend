@@ -71,20 +71,13 @@ export default function OrdersPage() {
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-white shadow-lg">
         <div className="max-w-7xl mx-auto flex gap-3">
           <Button
-            variant="secondary"
-            className="flex-1"
-            onClick={() => router.push('/menu')}
-            text={t('common.edit')}
-            disabled={isLoading}
-          />
-          <Button
             variant="primary"
             className="flex-1 flex justify-between"
             onClick={handleFinish}
             disabled={isLoading || orderItems.length === 0}
           >
             <span>{isLoading ? t('order.placing_order') : t('order.finish')}</span>
-            <span>{isLoading ? '...' : formatPrice(calculateTotal(orderItems))}</span>
+            <span>{isLoading ? '...' : formatPrice(calculateTotal(orderItems).amount)}</span>
           </Button>
         </div>
       </div>

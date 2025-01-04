@@ -171,7 +171,7 @@ export default function MenuPage() {
             >
               <div className="flex justify-between items-center w-full">
                 <span>{t('menu.view_order')}</span>
-                <span>{formatPrice(total)}</span>
+                <span>{formatPrice(total.amount)}</span>
               </div>
             </Button>
           </div>

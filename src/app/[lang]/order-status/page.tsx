@@ -10,37 +10,13 @@ import { useRouter } from 'next/navigation';
 import { useOrder } from '@/contexts/OrderContext';
 import { useTranslation } from '@/utils/i18n';
 import LoadingSpinner from '@/app/components/LoadingSpinner';
-
-interface OrderStatusItem {
-  meal: {
-    id: string;
-    name: string;
-    price: {
-      amount: number;
-      currency: string;
-    };
-    imageUrl: string;
-  };
-  quantity: number;
-}
-
-interface OrderStatus {
-  orderId: string;
-  items: OrderStatusItem[];
-  status: 'preparing' | 'ready' | 'paid';
-  total: {
-    amount: number;
-    currency: string;
-  };
-  estimatedTimeInMin: number;
-  createdAt: string;
-}
+import { Order } from '@/types/order';
 
 export default function OrderStatusPage() {
   const router = useRouter();
   const { tableId } = useOrder();
-  const [orders, setOrders] = useState<OrderStatus[]>([]);
-  const [totalPrice, setTotalPrice] = useState<{ amount: number; currency: string }>({ amount: 0, currency: 'AZN' });
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [totalPrice, setTotalPrice] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { t } = useTranslation();
@@ -50,7 +26,7 @@ export default function OrderStatusPage() {
       try {
         const response = await getTableOrders(tableId);
         setOrders(response.orders);
-        setTotalPrice(response.totalPrice);
+        setTotalPrice(response.totalPrice.amount);
       } catch (error) {
         console.error('Failed to fetch orders:', error);
         setError(t('order_status.failed_to_load'));
