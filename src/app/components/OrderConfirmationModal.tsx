@@ -6,9 +6,10 @@ interface OrderConfirmationModalProps {
   isOpen: boolean;
   onClose: () => void;
   onViewOrder: () => void;
+  estimatedTimeInMin: number;
 }
 
-export function OrderConfirmationModal({ isOpen, onClose, onViewOrder }: OrderConfirmationModalProps) {
+export function OrderConfirmationModal({ isOpen, onClose, onViewOrder, estimatedTimeInMin }: OrderConfirmationModalProps) {
   const { t } = useTranslation();
   
   if (!isOpen) return null;
@@ -27,7 +28,12 @@ export function OrderConfirmationModal({ isOpen, onClose, onViewOrder }: OrderCo
           </div>
 
           <h2 className="text-2xl font-semibold text-secondary-500 mb-2">{t('order.order_confirmed')}</h2>
-          <p className="text-gray-600 mb-8">{t('order.order_confirmed_description')}</p>
+          <p className="text-gray-600 mb-8">
+            {t('order.order_confirmed_description', { 
+              minutesMin: estimatedTimeInMin - 5, 
+              minutesMax: estimatedTimeInMin + 5 
+            })}
+          </p>
 
           <Button
             variant="primary"

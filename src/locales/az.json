@@ -19,7 +19,7 @@
     "finish": "Sifariş et",
     "placing_order": "Sifarişiniz göndərilir...",
     "order_confirmed": "Sifarişiniz tamamlanmışdır",
-    "order_confirmed_description": "Sifarişiniz hazırlanır."
+    "order_confirmed_description": "Sifarişiniz {{minutesMin}}-{{minutesMax}} dəqiqəyə hazır olacaq."
   },
   "order_status": {
     "new_order": "Yeni sifariş",

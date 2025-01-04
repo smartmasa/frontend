@@ -19,7 +19,7 @@
     "finish": "Завершить",
     "placing_order": "Размещение заказа...",
     "order_confirmed": "Заказ подтвержден!",
-    "order_confirmed_description": "Ваш заказ готовится."
+    "order_confirmed_description": "Ваш заказ будет готов через {{minutesMin}}-{{minutesMax}} минут."
   },
   "order_status": {
     "new_order": "Новый заказ",

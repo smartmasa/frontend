@@ -7,7 +7,7 @@ export function useTranslation() {
   const params = useParams();
   const lang = (params?.lang as Language) || 'az';
 
-  const t = (key: string): string => {
+  const t = (key: string, params?: Record<string, any>): string => {
     // Split the key by dots to access nested translations
     const keys = key.split('.');
     
@@ -16,7 +16,16 @@ export function useTranslation() {
       const translations = require(`../locales/${lang}.json`);
       
       // Traverse the translations object using the key path
-      return keys.reduce((obj, key) => obj[key], translations) || key;
+      let text = keys.reduce((obj, key) => obj[key], translations) || key;
+      
+      // Replace parameters in the text
+      if (params) {
+        Object.entries(params).forEach(([key, value]) => {
+          text = text.replace(new RegExp(`{{${key}}}`, 'g'), value);
+        });
+      }
+      
+      return text;
     } catch (error) {
       // Return the key itself if translation is not found
       console.warn(`Translation not found for key: ${key} in locale: ${lang}`);

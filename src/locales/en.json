@@ -19,7 +19,7 @@
     "finish": "Finish",
     "placing_order": "Placing Order...",
     "order_confirmed": "Order Confirmed!",
-    "order_confirmed_description": "Your order is being prepared."
+    "order_confirmed_description": "Your order will be ready in {{minutesMin}}-{{minutesMax}} minutes."
   },
   "order_status": {
     "new_order": "New order",

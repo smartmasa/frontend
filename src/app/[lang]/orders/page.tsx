@@ -20,13 +20,15 @@ export default function OrdersPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { t } = useTranslation();
+  const [estimatedTime, setEstimatedTime] = useState<number | null>(null);
 
   const handleFinish = async () => {
     try {
       setIsLoading(true);
       setError(null);
       
-      await placeOrder(orderItems, tableId);
+      const response = await placeOrder(orderItems, tableId);
+      setEstimatedTime(response.estimatedTimeInMin);
       
       // Clear the order after successful placement
       clearOrder();
@@ -95,6 +97,7 @@ export default function OrdersPage() {
           // Here you would typically navigate to an order tracking page
           router.push('/order-status');
         }}
+        estimatedTimeInMin={estimatedTime}
       />
     </div>
   );
