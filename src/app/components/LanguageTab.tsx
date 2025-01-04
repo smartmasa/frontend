@@ -15,7 +15,7 @@ export default function LanguageTab({ code, name, isSelected, onClick }: Languag
         ${isSelected ? 'border-2 border-orange-500' : 'border border-secondary-200 hover:bg-gray-50'}`}
     >
       <Image
-        src={`/flags/${code}.svg`}
+        src={`/static/flags/${code}.svg`}
         alt={`${name} flag`}
         width={48}
         height={48}

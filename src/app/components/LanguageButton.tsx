@@ -4,11 +4,29 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import LanguageTab from './LanguageTab';
-import { useLanguage, languages } from '@/contexts/LanguageContext';
+import { useParams, usePathname, useRouter } from 'next/navigation';
+import { Language, languages } from '@/utils/i18n';
+
+const languageNames: Record<Language, string> = {
+  az: 'Azerbaijani',
+  ru: 'Russian',
+  tr: 'Turkish',
+  en: 'English',
+};
 
 export default function LanguageButton() {
   const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
-  const { selectedLanguage, setLanguage } = useLanguage();
+  const params = useParams();
+  const pathname = usePathname();
+  const router = useRouter();
+  const currentLang = (params?.lang as Language) || 'az';
+
+  const handleLanguageChange = (language: Language) => {
+    const segments = pathname.split('/');
+    segments[1] = language;
+    router.push(segments.join('/'));
+    setIsLanguageModalOpen(false);
+  };
 
   return (
     <>
@@ -17,8 +35,8 @@ export default function LanguageButton() {
         className="flex items-center hover:bg-gray-50 rounded-lg"
       >
         <Image 
-          src={`/flags/${selectedLanguage.code}.svg`}
-          alt={`${selectedLanguage.name} flag`}
+          src={`/static/flags/${currentLang}.svg`}
+          alt={`${languageNames[currentLang]} flag`}
           width={24}
           height={24}
           className="rounded-full"
@@ -40,16 +58,13 @@ export default function LanguageButton() {
             </div>
             <div className="p-6">
               <div className="grid grid-cols-2 gap-4">
-                {languages.map((language) => (
+                {languages.map((code) => (
                   <LanguageTab
-                    key={language.code}
-                    code={language.code}
-                    name={language.name}
-                    isSelected={selectedLanguage.code === language.code}
-                    onClick={() => {
-                      setLanguage(language);
-                      setIsLanguageModalOpen(false);
-                    }}
+                    key={code}
+                    code={code}
+                    name={languageNames[code]}
+                    isSelected={currentLang === code}
+                    onClick={() => handleLanguageChange(code)}
                   />
                 ))}
               </div>
@@ -59,6 +74,4 @@ export default function LanguageButton() {
       )}
     </>
   );
-}
-
-export type { Language } from '@/contexts/LanguageContext'; 
+} 

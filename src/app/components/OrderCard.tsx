@@ -5,6 +5,7 @@ import { formatPrice } from '@/lib/formatters';
 import { CardContainer } from './common/CardContainer';
 import { QuantityControl } from './common/QuantityControl';
 import { OrderItem } from '@/types/order';
+import { useTranslation } from '@/utils/i18n';
 
 interface OrderCardProps {
   item: OrderItem;
@@ -17,6 +18,8 @@ export function OrderCard({
   onQuantityChange,
   onCommentChange 
 }: OrderCardProps) {
+  const { t } = useTranslation();
+
   const handleQuantityChange = (newQuantity: number) => {
     onQuantityChange(item.mealId, newQuantity);
   };
@@ -55,7 +58,7 @@ export function OrderCard({
         <textarea
           value={item.comment}
           onChange={handleCommentChange}
-          placeholder={"Need more? \n Leave a comment..."}
+          placeholder={t('order.special_request_placeholder')}
           rows={2}
           className="w-full p-2 border-b text-xs border-gray-200 text-secondary-500 placeholder-gray-400 focus:outline-none focus:ring-0 focus:border-b-2 focus:border-orange-500 transition-colors bg-transparent resize-none min-h-[3.5rem] overflow-auto [white-space:pre-line]"
         />

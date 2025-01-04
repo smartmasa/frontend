@@ -10,6 +10,8 @@ import { useState } from 'react';
 import { OrderConfirmationModal } from '@/app/components/OrderConfirmationModal';
 import { HeaderWithBack } from '@/app/components/HeaderWithBack';
 import { placeOrder } from '@/services/orderService';
+import { useTranslation } from '@/utils/i18n';
+import LoadingSpinner from '@/app/components/LoadingSpinner';
 
 export default function OrdersPage() {
   const router = useRouter();
@@ -17,6 +19,7 @@ export default function OrdersPage() {
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   const handleFinish = async () => {
     try {
@@ -31,15 +34,19 @@ export default function OrdersPage() {
       // Show confirmation modal
       setIsConfirmationOpen(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to place order');
+      setError(err instanceof Error ? err.message : t('orders.failed_to_place'));
     } finally {
       setIsLoading(false);
     }
   };
 
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <HeaderWithBack title="My orders" />
+      <HeaderWithBack title={t('order.my_orders')} />
 
       {error && (
         <div className="p-4 bg-red-100 text-red-700 mb-4">
@@ -65,7 +72,7 @@ export default function OrdersPage() {
             variant="secondary"
             className="flex-1"
             onClick={() => router.push('/menu')}
-            text="Edit"
+            text={t('common.edit')}
             disabled={isLoading}
           />
           <Button
@@ -74,7 +81,7 @@ export default function OrdersPage() {
             onClick={handleFinish}
             disabled={isLoading || orderItems.length === 0}
           >
-            <span>{isLoading ? 'Placing Order' : 'Finish'}</span>
+            <span>{isLoading ? t('order.placing_order') : t('order.finish')}</span>
             <span>{isLoading ? '...' : formatPrice(calculateTotal(orderItems))}</span>
           </Button>
         </div>

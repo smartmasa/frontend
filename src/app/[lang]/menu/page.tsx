@@ -5,12 +5,14 @@ import { Button } from '@/app/components/Button';
 import { useState, useEffect } from 'react';
 import Tab from '@/app/components/Tab';
 import HeaderWithLogo from '@/app/components/HeaderWithLogo';
+import LoadingSpinner from '@/app/components/LoadingSpinner';
 import { useRouter } from 'next/navigation';
 import { useOrder } from '@/contexts/OrderContext';
 import { formatPrice } from '@/lib/formatters';
 import { calculateTotal } from '@/lib/utils';
 import { fetchMenu } from '@/services/menuService';
 import { Category, MenuItem } from '@/types/menu';
+import { useTranslation } from '@/utils/i18n';
 
 interface CategorySectionProps {
   category: Category;
@@ -46,7 +48,7 @@ function CategorySection({ category, gridClassName }: CategorySectionProps) {
         {category.name}
       </h2>
       
-      <div className={gridClassName || "grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-y-6 px-2 justify-items-center"}>
+      <div className={gridClassName || "grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-y-6 justify-items-center"}>
         {category.meals && category.meals.map((meal) => (
           meal && meal.id && (
             <MealCard
@@ -77,6 +79,7 @@ export default function MenuPage() {
   const [menuData, setMenuData] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const loadMenu = async () => {
@@ -97,11 +100,7 @@ export default function MenuPage() {
   const total = calculateTotal(orderItems);
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500"></div>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   if (error) {
@@ -153,7 +152,7 @@ export default function MenuPage() {
                 <CategorySection
                   key={category.id}
                   category={category}
-                  gridClassName="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-y-8 px-4 justify-items-center"
+                  gridClassName="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-y-6 justify-items-center"
                 />
               )
             ))
@@ -170,7 +169,7 @@ export default function MenuPage() {
               disabled={total.amount === 0}
             >
               <div className="flex justify-between items-center w-full">
-                <span>View Order</span>
+                <span>{t('menu.view_order')}</span>
                 <span>{formatPrice(total)}</span>
               </div>
             </Button>

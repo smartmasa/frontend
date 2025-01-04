@@ -8,6 +8,8 @@ import HeaderWithLogo from '@/app/components/HeaderWithLogo';
 import { Button } from '@/app/components/Button';
 import { useRouter } from 'next/navigation';
 import { useOrder } from '@/contexts/OrderContext';
+import { useTranslation } from '@/utils/i18n';
+import LoadingSpinner from '@/app/components/LoadingSpinner';
 
 interface OrderStatusItem {
   meal: {
@@ -39,8 +41,9 @@ export default function OrderStatusPage() {
   const { tableId } = useOrder();
   const [orders, setOrders] = useState<OrderStatus[]>([]);
   const [totalPrice, setTotalPrice] = useState<{ amount: number; currency: string }>({ amount: 0, currency: 'AZN' });
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -49,17 +52,17 @@ export default function OrderStatusPage() {
         setOrders(response.orders);
         setTotalPrice(response.totalPrice);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch orders');
+        setError(t('order_status.failed_to_load'));
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
     fetchOrders();
-  }, [tableId, router]);
+  }, [tableId, t]);
 
-  if (loading) {
-    return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
+  if (isLoading) {
+    return <LoadingSpinner />;
   }
 
   if (error) {
@@ -67,7 +70,7 @@ export default function OrderStatusPage() {
   }
 
   if (orders.length === 0) {
-    return <div className="flex justify-center items-center min-h-screen">No orders found</div>;
+    return <div className="flex justify-center items-center min-h-screen">{t('order_status.no_orders')}</div>;
   }
 
   return (
@@ -97,7 +100,7 @@ export default function OrderStatusPage() {
             variant="secondary"
             className="flex-1"
             onClick={() => router.push('/menu')}
-            text="New order"
+            text={t('order_status.new_order')}
           />
           <Button
             variant="primary"
@@ -105,7 +108,7 @@ export default function OrderStatusPage() {
             onClick={() => {}}
           >
             <div className="flex justify-between items-center w-full">
-              <span>Pay</span>
+              <span>{t('order_status.pay')}</span>
               <span>{formatPrice(totalPrice)}</span>
             </div>
           </Button>

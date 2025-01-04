@@ -1,0 +1,28 @@
+{
+  "common": {
+    "edit": "Изменить",
+    "min": "мин"
+  },
+  "table": {
+    "help_question": "Чем мы можем помочь?",
+    "choose_option": "Выберите предпочитаемый вариант",
+    "order_now": "Заказать сейчас",
+    "call_waiter": "Вызвать официанта"
+  },
+  "menu": {
+    "view_order": "Посмотреть заказ"
+  },
+  "order": {
+    "my_orders": "Мои заказы",
+    "view_order": "Посмотреть заказ",
+    "special_request_placeholder": "Особые пожелания?\nДобавьте примечание...",
+    "finish": "Завершить",
+    "placing_order": "Размещение заказа...",
+    "order_confirmed": "Заказ подтвержден!",
+    "order_confirmed_description": "Ваш заказ готовится."
+  },
+  "order_status": {
+    "new_order": "Новый заказ",
+    "pay": "Оплатить"
+  }
+} 

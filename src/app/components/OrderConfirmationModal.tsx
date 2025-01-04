@@ -1,5 +1,6 @@
 import { Button } from './Button';
 import Image from 'next/image';
+import { useTranslation } from '@/utils/i18n';
 
 interface OrderConfirmationModalProps {
   isOpen: boolean;
@@ -8,6 +9,8 @@ interface OrderConfirmationModalProps {
 }
 
 export function OrderConfirmationModal({ isOpen, onClose, onViewOrder }: OrderConfirmationModalProps) {
+  const { t } = useTranslation();
+  
   if (!isOpen) return null;
 
   return (
@@ -16,21 +19,21 @@ export function OrderConfirmationModal({ isOpen, onClose, onViewOrder }: OrderCo
         <div className="p-6 flex flex-col items-center text-center">
           <div className="w-24 h-24 mb-6 relative">
             <Image
-              src="/order-completion.gif"
-              alt="Order completion"
+              src="/static/order-completion.gif"
+              alt={t('order.order_confirmed')}
               fill
               className="object-contain"
             />
           </div>
 
-          <h2 className="text-2xl font-semibold text-secondary-500 mb-2">Order Confirmed!</h2>
-          <p className="text-gray-600 mb-8">Your order is being prepared.</p>
+          <h2 className="text-2xl font-semibold text-secondary-500 mb-2">{t('order.order_confirmed')}</h2>
+          <p className="text-gray-600 mb-8">{t('order.order_confirmed_description')}</p>
 
           <Button
             variant="primary"
             className="w-full"
             onClick={onViewOrder}
-            text="View order"
+            text={t('order.view_order')}
           />
         </div>
       </div>

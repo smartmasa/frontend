@@ -1,0 +1,28 @@
+{
+  "common": {
+    "edit": "Düzenle",
+    "min": "dk"
+  },
+  "table": {
+    "help_question": "Size nasıl yardımcı olabiliriz?",
+    "choose_option": "Tercih ettiğiniz seçeneği seçin",
+    "order_now": "Şimdi sipariş ver",
+    "call_waiter": "Garson çağır"
+  },
+  "menu": {
+    "view_order": "Siparişi görüntüle"
+  },
+  "order": {
+    "my_orders": "Siparişlerim",
+    "view_order": "Siparişi görüntüle",
+    "special_request_placeholder": "Özel istek?\nNot ekleyin...",
+    "finish": "Bitir",
+    "placing_order": "Sipariş veriliyor...",
+    "order_confirmed": "Sipariş Onaylandı!",
+    "order_confirmed_description": "Siparişiniz hazırlanıyor."
+  },
+  "order_status": {
+    "new_order": "Yeni sipariş",
+    "pay": "Öde"
+  }
+}

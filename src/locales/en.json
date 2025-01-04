@@ -1,0 +1,28 @@
+{
+  "common": {
+    "edit": "Edit",
+    "min": "min"
+  },
+  "table": {
+    "help_question": "How can we help?",
+    "choose_option": "Choose your preferred option",
+    "order_now": "Order now",
+    "call_waiter": "Call waiter"
+  },
+  "menu": {
+    "view_order": "View order"
+  },
+  "order": {
+    "my_orders": "My Orders",
+    "view_order": "View order",
+    "special_request_placeholder": "Special request?\nAdd a note...",
+    "finish": "Finish",
+    "placing_order": "Placing Order...",
+    "order_confirmed": "Order Confirmed!",
+    "order_confirmed_description": "Your order is being prepared."
+  },
+  "order_status": {
+    "new_order": "New order",
+    "pay": "Pay"
+  }
+} 
