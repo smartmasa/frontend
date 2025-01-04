@@ -51,7 +51,8 @@ export default function OrderStatusPage() {
         const response = await getTableOrders(tableId);
         setOrders(response.orders);
         setTotalPrice(response.totalPrice);
-      } catch (err) {
+      } catch (error) {
+        console.error('Failed to fetch orders:', error);
         setError(t('order_status.failed_to_load'));
       } finally {
         setIsLoading(false);

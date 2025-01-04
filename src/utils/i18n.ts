@@ -7,12 +7,13 @@ export function useTranslation() {
   const params = useParams();
   const lang = (params?.lang as Language) || 'az';
 
-  const t = (key: string, params?: Record<string, any>): string => {
+  const t = (key: string, params?: Record<string, string | number | boolean>): string => {
     // Split the key by dots to access nested translations
     const keys = key.split('.');
     
     try {
       // Dynamic import of the translation file based on current locale
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const translations = require(`../locales/${lang}.json`);
       
       // Traverse the translations object using the key path
@@ -29,6 +30,7 @@ export function useTranslation() {
     } catch (error) {
       // Return the key itself if translation is not found
       console.warn(`Translation not found for key: ${key} in locale: ${lang}`);
+      console.error(error);
       return key;
     }
   };
