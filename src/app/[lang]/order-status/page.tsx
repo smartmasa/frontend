@@ -22,7 +22,6 @@ export default function OrderStatusPage() {
   const { t, currentLanguage } = useTranslation();
 
   useEffect(() => {
-    console.log('OrderStatusPage useEffect tableId:', tableId);
     if (!tableId) {
       console.log('No tableId available yet');
       return;

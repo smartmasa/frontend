@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { OrderCard } from '@/app/components/OrderCard';
 import { useOrder } from '@/contexts/OrderContext';
 import { calculateTotal } from '@/lib/utils';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { OrderConfirmationModal } from '@/app/components/OrderConfirmationModal';
 import { HeaderWithBack } from '@/app/components/HeaderWithBack';
 import { placeOrder } from '@/services/orderService';
@@ -20,10 +20,10 @@ export default function OrdersPage() {
   const [error, setError] = useState<string | null>(null);
   const { t } = useTranslation();
   const [estimatedTime, setEstimatedTime] = useState<number>(0);
+  const orderPlacedRef = useRef(false);
 
-  let orderPlaced: boolean = false;
   useEffect(() => {
-    if (!orderPlaced && orderItems.length === 0 && !isConfirmationOpen) {
+    if (!orderPlacedRef.current && orderItems.length === 0 && !isConfirmationOpen) {
       router.push('/menu');
     }
   }, [orderItems]);
@@ -35,7 +35,7 @@ export default function OrdersPage() {
       
       const response = await placeOrder(orderItems, tableId);
       setEstimatedTime(response.estimatedTimeInMin);
-      orderPlaced = true;
+      orderPlacedRef.current = true;
       // Clear the order after successful placement
       clearOrder();
       
