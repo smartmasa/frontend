@@ -35,16 +35,18 @@ export function OrderCard({
             />
           </div>
           <div className="ml-4 flex-1">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-semibold text-secondary-500">{item.name}</h3>
+            <div className="flex items-start justify-between gap-2">
+              <div className="min-w-0 max-w-40">
+                <h3 className="font-semibold text-secondary-500 line-clamp-2">{item.name}</h3>
                 <p className="text-secondary-500">{formatPrice(item.price)}</p>
               </div>
-              <QuantityControl
-                quantity={item.quantity}
-                onQuantityChange={handleQuantityChange}
-                variant="full"
-              />
+              <div className="flex-shrink-0">
+                <QuantityControl
+                  quantity={item.quantity}
+                  onQuantityChange={handleQuantityChange}
+                  variant="full"
+                />
+              </div>
             </div>
           </div>
         </div>

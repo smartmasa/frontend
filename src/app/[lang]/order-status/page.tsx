@@ -53,7 +53,7 @@ export default function OrderStatusPage() {
     <div className="min-h-screen bg-gray-50">
       <HeaderWithBack title={t('order_status.title')} />
       
-      <div className="p-4 space-y-4">
+      <div className="p-4 pb-32 space-y-4">
         {orders.map((order) => (
           <div key={order.orderId} className="space-y-4">
             {order.items.map((item) => (

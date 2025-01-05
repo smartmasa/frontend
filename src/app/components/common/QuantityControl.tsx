@@ -52,14 +52,14 @@ export function QuantityControl({
         className="w-8 text-secondary-500 flex items-center justify-center"
         onClick={handleDecrement}
       >
-        <MinusIcon className="w-4 h-4" />
+        <MinusIcon className="w-5 h-5" />
       </button>
-      <span className="w-7 text-center text-secondary-500">{quantity}</span>
+      <span className="w-7 text-center text-secondary-500 font-semibold">{quantity}</span>
       <button
         className="w-8 text-secondary-500 flex items-center justify-center"
         onClick={handleIncrement}
       >
-        <PlusIcon className="w-4 h-4" />
+        <PlusIcon className="w-5 h-5" />
       </button>
     </div>
   );
