@@ -13,7 +13,6 @@ import { useTranslation } from '@/utils/i18n';
 import LoadingSpinner from '@/app/components/LoadingSpinner';
 
 export default function OrderStatusPage() {
-  console.log('OrderStatusPage rendered');
   const router = useRouter();
   const { tableId } = useOrder();
   const [orders, setOrders] = useState<Order[]>([]);
@@ -23,7 +22,6 @@ export default function OrderStatusPage() {
 
   useEffect(() => {
     if (!tableId) {
-      console.log('No tableId available yet');
       return;
     }
 
