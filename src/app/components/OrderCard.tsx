@@ -10,13 +10,11 @@ import { useTranslation } from '@/utils/i18n';
 interface OrderCardProps {
   item: OrderItem;
   onQuantityChange: (mealId: string, newQuantity: number) => void;
-  onCommentChange?: (mealId: string, comment: string) => void;
 }
 
 export function OrderCard({ 
   item, 
   onQuantityChange,
-  onCommentChange 
 }: OrderCardProps) {
   const { t } = useTranslation();
 

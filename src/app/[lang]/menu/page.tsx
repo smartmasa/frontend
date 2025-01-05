@@ -78,7 +78,7 @@ export default function MenuPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<string>('');
-  const { t, currentLanguage } = useTranslation();
+  const { currentLanguage } = useTranslation();
 
   const scrollToCategory = (categoryId: string) => {
     const element = document.getElementById(`category-${categoryId}`);

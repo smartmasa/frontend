@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import LanguageTab from './LanguageTab';
-import { useParams, usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Language, languages, useTranslation } from '@/utils/i18n';
 
 const languageNames: Record<Language, string> = {
@@ -16,8 +16,7 @@ const languageNames: Record<Language, string> = {
 
 export default function LanguageButton() {
   const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
-  const { t, currentLanguage } = useTranslation();
-  const params = useParams();
+  const { currentLanguage } = useTranslation();
   const pathname = usePathname();
   const router = useRouter();
 

@@ -19,7 +19,6 @@ export default function OrderStatusPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const { t, currentLanguage } = useTranslation();
 
   useEffect(() => {
@@ -35,6 +34,7 @@ export default function OrderStatusPage() {
         setOrders(response.orders);
         setTotalPrice(response.totalPrice.amount);
       } catch (error) {
+        console.error('Error fetching orders:', error);
         // setError(t('order_status.failed_to_load'));
       } finally {
         setIsLoading(false);
@@ -46,10 +46,6 @@ export default function OrderStatusPage() {
 
   if (isLoading) {
     return <LoadingSpinner />;
-  }
-
-  if (error) {
-    return <div className="flex justify-center items-center min-h-screen text-red-500">{error}</div>;
   }
 
   if (orders.length === 0) {
