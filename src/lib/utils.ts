@@ -12,5 +12,5 @@ export function calculateTotal(orderItems: OrderItem[]) {
       amount: sum.amount + (item.price.amount * item.quantity),
       currency: item.price.currency,
     };
-  }, { amount: 0, currency: process.env.BASE_CURRENCY || 'AZN' });
+  }, { amount: 0, currency: process.env.BASE_CURRENCY as string });
 } 

@@ -1,14 +1,12 @@
 "use client";
 
 import MealCard from '@/app/components/MealCard';
-import { Button } from '@/app/components/Button';
 import { useState, useEffect } from 'react';
 import Tab from '@/app/components/Tab';
 import HeaderWithLogo from '@/app/components/HeaderWithLogo';
 import LoadingSpinner from '@/app/components/LoadingSpinner';
 import { useRouter } from 'next/navigation';
 import { useOrder } from '@/contexts/OrderContext';
-import { formatPrice } from '@/lib/formatters';
 import { calculateTotal } from '@/lib/utils';
 import { fetchMenu } from '@/services/menuService';
 import { Category, MenuItem } from '@/types/menu';
@@ -80,7 +78,7 @@ export default function MenuPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<string>('');
-  const { t } = useTranslation();
+  const { t, currentLanguage } = useTranslation();
 
   const scrollToCategory = (categoryId: string) => {
     const element = document.getElementById(`category-${categoryId}`);
@@ -100,7 +98,7 @@ export default function MenuPage() {
   useEffect(() => {
     const loadMenu = async () => {
       try {
-        const data = await fetchMenu();
+        const data = await fetchMenu(currentLanguage);
         setMenuData(data.categories);
         // Set first tab as active by default
         setActiveTab(data.categories[0].id);

@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import LanguageTab from './LanguageTab';
 import { useParams, usePathname, useRouter } from 'next/navigation';
-import { Language, languages } from '@/utils/i18n';
+import { Language, languages, useTranslation } from '@/utils/i18n';
 
 const languageNames: Record<Language, string> = {
   az: 'Azerbaijani',
@@ -16,10 +16,10 @@ const languageNames: Record<Language, string> = {
 
 export default function LanguageButton() {
   const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
+  const { t, currentLanguage } = useTranslation();
   const params = useParams();
   const pathname = usePathname();
   const router = useRouter();
-  const currentLang = (params?.lang as Language) || 'az';
 
   const handleLanguageChange = (language: Language) => {
     const segments = pathname.split('/');
@@ -35,8 +35,8 @@ export default function LanguageButton() {
         className="flex items-center hover:bg-gray-50 rounded-lg"
       >
         <Image 
-          src={`/static/flags/${currentLang}.svg`}
-          alt={`${languageNames[currentLang]} flag`}
+          src={`/static/flags/${currentLanguage}.svg`}
+          alt={`${languageNames[currentLanguage]} flag`}
           width={24}
           height={24}
           className="rounded-full"
@@ -63,7 +63,7 @@ export default function LanguageButton() {
                     key={code}
                     code={code}
                     name={languageNames[code]}
-                    isSelected={currentLang === code}
+                    isSelected={currentLanguage === code}
                     onClick={() => handleLanguageChange(code)}
                   />
                 ))}

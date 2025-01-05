@@ -13,22 +13,22 @@ import LoadingSpinner from '@/app/components/LoadingSpinner';
 import { Order } from '@/types/order';
 
 export default function OrderStatusPage() {
+  console.log('OrderStatusPage rendered');
   const router = useRouter();
   const { tableId } = useOrder();
   const [orders, setOrders] = useState<Order[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { t } = useTranslation();
+  const { t, currentLanguage } = useTranslation();
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await getTableOrders(tableId);
+        const response = await getTableOrders(tableId, currentLanguage);
         setOrders(response.orders);
         setTotalPrice(response.totalPrice.amount);
       } catch (error) {
-        console.error('Failed to fetch orders:', error);
         setError(t('order_status.failed_to_load'));
       } finally {
         setIsLoading(false);

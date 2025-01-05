@@ -66,7 +66,7 @@ export const placeOrder = async (orderItems: OrderItem[], tableId: string): Prom
     })),
     totalPrice: {
       amount: totalPrice,
-      currency: process.env.BASE_CURRENCY || 'AZN'
+      currency: process.env.NEXT_PUBLIC_BASE_CURRENCY as string
     }
   };
 
@@ -86,16 +86,16 @@ export const placeOrder = async (orderItems: OrderItem[], tableId: string): Prom
   return response.json();
 }
 
-export const getTableOrders = async (tableId: string): Promise<OrdersResponse> => {
+export const getTableOrders = async (tableId: string, lang: string): Promise<OrdersResponse> => {
   const response = await fetch(`/api/order/table/${tableId}`, {
     headers: {
-      'Accept-Language': 'az',
+      'Accept-Language': lang,
     },
   });
 
   if (!response.ok) {
     if (response.status === 204) {
-      return { orders: [], totalPrice: { amount: 0, currency: 'AZN' } };
+      return { orders: [], totalPrice: { amount: 0, currency: process.env.NEXT_PUBLIC_BASE_CURRENCY as string } };
     }
     const error = await response.json();
     throw new Error(error.message || 'Failed to fetch orders');
