@@ -6,14 +6,11 @@ export interface OrderItem extends Omit<Meal, 'id'> {
   comment?: string;
 }
 
-export interface OrderStatusItem {
+interface PlacedOrderItem {
   meal: {
     id: string;
     name: string;
-    price: {
-      amount: number;
-      currency: string;
-    };
+    price: number;
     imageUrl: string;
   };
   quantity: number;
@@ -21,12 +18,9 @@ export interface OrderStatusItem {
 
 export interface Order {
   orderId: string;
-  items: OrderStatusItem[];
+  items: PlacedOrderItem[];
   status: 'preparing' | 'ready' | 'paid';
-  total: {
-    amount: number;
-    currency: string;
-  };
+  totalPrice: number;
   estimatedTimeInMin: number;
   createdAt: string;
 } 

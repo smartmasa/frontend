@@ -7,10 +7,8 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function calculateTotal(orderItems: OrderItem[]) {
-  return orderItems.reduce((sum, item) => {
-    return {
-      amount: sum.amount + (item.price.amount * item.quantity),
-      currency: item.price.currency,
-    };
-  }, { amount: 0, currency: process.env.BASE_CURRENCY as string });
+  return {
+    amount: orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+    currency: process.env.BASE_CURRENCY as string
+  };
 } 

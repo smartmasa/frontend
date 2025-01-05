@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { getTableOrders } from '@/services/orderService';
+import { Order } from '@/types/order';
 import { formatPrice } from '@/lib/formatters';
 import { OrderItemCard } from '@/app/components/OrderItemCard';
 import { HeaderWithBack } from '@/app/components/HeaderWithBack';
@@ -10,7 +11,6 @@ import { useRouter } from 'next/navigation';
 import { useOrder } from '@/contexts/OrderContext';
 import { useTranslation } from '@/utils/i18n';
 import LoadingSpinner from '@/app/components/LoadingSpinner';
-import { Order } from '@/types/order';
 
 export default function OrderStatusPage() {
   console.log('OrderStatusPage rendered');
@@ -32,7 +32,7 @@ export default function OrderStatusPage() {
       try {
         const response = await getTableOrders(tableId, currentLanguage);
         setOrders(response.orders);
-        setTotalPrice(response.totalPrice.amount);
+        setTotalPrice(response.totalPrice);
       } catch (error) {
         console.error('Error fetching orders:', error);
         // setError(t('order_status.failed_to_load'));

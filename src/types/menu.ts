@@ -1,10 +1,7 @@
 export interface Meal {
   id: string;
   name: string;
-  price: {
-    amount: number;
-    currency: string;
-  };
+  price: number;
   imageUrl: string;
 }
 

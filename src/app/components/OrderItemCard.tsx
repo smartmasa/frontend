@@ -21,7 +21,7 @@ export function OrderItemCard({ name, price, quantity, imageUrl }: OrderItemCard
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-semibold text-secondary-500">{name}</h3>
-              <p className="text-secondary-500">{formatPrice(price.amount)}</p>
+              <p className="text-secondary-500">{formatPrice(price)}</p>
             </div>
             <div className="flex items-center justify-center">
               <span className="w-8 h-8 flex items-center justify-center text-primary-500 font-medium border border-primary-500 rounded-lg">

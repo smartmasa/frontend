@@ -1,4 +1,4 @@
-import { OrderItem } from '@/types/order';
+import { OrderItem, Order } from '@/types/order';
 
 interface PlaceOrderRequest {
   tableId: string;
@@ -6,57 +6,23 @@ interface PlaceOrderRequest {
     mealId: string;
     quantity: number;
   }[];
-  totalPrice: {
-    amount: number;
-    currency: string;
-  };
+  totalPrice: number;
 }
 
 interface PlaceOrderResponse {
   orderId: string;
   status: 'preparing' | 'ready' | 'paid';
-  total: {
-    amount: number;
-    currency: string;
-  };
+  totalPrice: number;
   estimatedTimeInMin: number;
-}
-
-interface OrderStatusItem {
-  meal: {
-    id: string;
-    name: string;
-    price: {
-      amount: number;
-      currency: string;
-    };
-    imageUrl: string;
-  };
-  quantity: number;
-}
-
-interface OrderStatus {
-  orderId: string;
-  items: OrderStatusItem[];
-  status: 'preparing' | 'ready' | 'paid';
-  total: {
-    amount: number;
-    currency: string;
-  };
-  estimatedTimeInMin: number;
-  createdAt: string;
 }
 
 interface OrdersResponse {
-  orders: OrderStatus[];
-  totalPrice: {
-    amount: number;
-    currency: string;
-  };
+  orders: Order[];
+  totalPrice: number;
 }
 
 export const placeOrder = async (orderItems: OrderItem[], tableId: string): Promise<PlaceOrderResponse> => {
-  const totalPrice = orderItems.reduce((total, item) => total + (item.price.amount * item.quantity), 0);
+  const totalPrice = orderItems.reduce((total, item) => total + (item.price * item.quantity), 0);
   
   const requestBody: PlaceOrderRequest = {
     tableId,
@@ -64,10 +30,7 @@ export const placeOrder = async (orderItems: OrderItem[], tableId: string): Prom
       mealId: item.mealId,
       quantity: item.quantity
     })),
-    totalPrice: {
-      amount: totalPrice,
-      currency: process.env.NEXT_PUBLIC_BASE_CURRENCY as string
-    }
+    totalPrice: totalPrice
   };
 
   const response = await fetch(`/api/order`, {
@@ -95,7 +58,7 @@ export const getTableOrders = async (tableId: string, lang: string): Promise<Ord
 
   if (!response.ok) {
     if (response.status === 204) {
-      return { orders: [], totalPrice: { amount: 0, currency: process.env.NEXT_PUBLIC_BASE_CURRENCY as string } };
+      return { orders: [], totalPrice: 0};
     }
     const error = await response.json();
     throw new Error(error.message || 'Failed to fetch orders');

@@ -49,7 +49,7 @@ const MealCard = ({
           <div className="flex items-center justify-between">
             <TimeDisplay minutes={cookingTime} />
             <span className="text-xs font-semibold text-primary-500">
-              {formatPrice(price.amount)}
+              {formatPrice(price)}
             </span>
           </div>
           
