@@ -1,12 +1,10 @@
 "use client";
 
 import { useRouter } from 'next/navigation';
-import { Button } from '@/app/components/Button';
 import { OrderCard } from '@/app/components/OrderCard';
 import { useOrder } from '@/contexts/OrderContext';
-import { formatPrice } from '@/lib/formatters';
 import { calculateTotal } from '@/lib/utils';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { OrderConfirmationModal } from '@/app/components/OrderConfirmationModal';
 import { HeaderWithBack } from '@/app/components/HeaderWithBack';
 import { placeOrder } from '@/services/orderService';
@@ -23,6 +21,13 @@ export default function OrdersPage() {
   const { t } = useTranslation();
   const [estimatedTime, setEstimatedTime] = useState<number>(0);
 
+  let orderPlaced: boolean = false;
+  useEffect(() => {
+    if (!orderPlaced && orderItems.length === 0 && !isConfirmationOpen) {
+      router.push('/menu');
+    }
+  }, [orderItems]);
+
   const handleFinish = async () => {
     try {
       setIsLoading(true);
@@ -30,7 +35,7 @@ export default function OrdersPage() {
       
       const response = await placeOrder(orderItems, tableId);
       setEstimatedTime(response.estimatedTimeInMin);
-      
+      orderPlaced = true;
       // Clear the order after successful placement
       clearOrder();
       
@@ -87,7 +92,6 @@ export default function OrdersPage() {
         onClose={() => setIsConfirmationOpen(false)}
         onViewOrder={() => {
           setIsConfirmationOpen(false);
-          // Here you would typically navigate to an order tracking page
           router.push('/order-status');
         }}
         estimatedTimeInMin={estimatedTime}

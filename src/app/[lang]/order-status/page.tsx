@@ -23,20 +23,26 @@ export default function OrderStatusPage() {
   const { t, currentLanguage } = useTranslation();
 
   useEffect(() => {
+    console.log('OrderStatusPage useEffect tableId:', tableId);
+    if (!tableId) {
+      console.log('No tableId available yet');
+      return;
+    }
+
     const fetchOrders = async () => {
       try {
         const response = await getTableOrders(tableId, currentLanguage);
         setOrders(response.orders);
         setTotalPrice(response.totalPrice.amount);
       } catch (error) {
-        setError(t('order_status.failed_to_load'));
+        // setError(t('order_status.failed_to_load'));
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchOrders();
-  }, [tableId, t]);
+  }, [tableId, currentLanguage, t]);
 
   if (isLoading) {
     return <LoadingSpinner />;

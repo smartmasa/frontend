@@ -24,6 +24,7 @@ export function OrderProvider({ children }: { children: ReactNode }) {
 
   // Load from sessionStorage on client-side mount
   useEffect(() => {
+    console.log('OrderProvider useEffect triggered');
     const savedOrder = sessionStorage.getItem(STORAGE_KEY);
     const savedTableId = sessionStorage.getItem(TABLE_ID_KEY);
     
@@ -72,7 +73,6 @@ export function OrderProvider({ children }: { children: ReactNode }) {
 
   const clearOrder = () => {
     setOrderItems([]);
-    sessionStorage.removeItem(STORAGE_KEY);
   };
 
   return (
