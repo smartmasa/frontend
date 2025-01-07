@@ -81,7 +81,7 @@ export default function MenuPage() {
   const scrollToCategory = (categoryId: string) => {
     const element = document.getElementById(`category-${categoryId}`);
     if (element) {
-      const headerOffset = 80; // Approximate height of the sticky header
+      const headerOffset = 80;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
@@ -98,7 +98,6 @@ export default function MenuPage() {
       try {
         const data = await fetchMenu(locale);
         setMenuData(data.categories);
-        // Set first tab as active by default
         setActiveTab(data.categories[0].id);
       } catch (err) {
         console.error('Error fetching menu:', err);
@@ -110,6 +109,36 @@ export default function MenuPage() {
 
     loadMenu();
   }, []);
+
+  // Add intersection observer to handle scroll-based tab activation
+  useEffect(() => {
+    if (!menuData.length) return;
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '-50% 0px',  // Consider element in viewport when it's in the middle
+      threshold: 0
+    };
+
+    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const categoryId = entry.target.id.replace('category-', '');
+          setActiveTab(categoryId);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersect, observerOptions);
+
+    // Observe all category sections
+    menuData.forEach(category => {
+      const element = document.getElementById(`category-${category.id}`);
+      if (element) observer.observe(element);
+    });
+
+    return () => observer.disconnect();
+  }, [menuData]);
 
   const total = calculateTotal(orderItems);
 
