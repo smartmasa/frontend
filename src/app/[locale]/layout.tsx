@@ -30,14 +30,10 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html>
-      <body className={`${dmSans.variable} font-sans antialiased`}>
-        <NextIntlClientProvider messages={messages} locale={locale}>
-          <OrderProvider>
-            {children}
-          </OrderProvider>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider messages={messages} locale={locale}>
+      <OrderProvider>
+        {children}
+      </OrderProvider>
+    </NextIntlClientProvider>
   );
 }

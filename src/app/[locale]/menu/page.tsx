@@ -26,7 +26,6 @@ function CategorySection({ category, gridClassName }: CategorySectionProps) {
     if (!existingItem && newQuantity > 0 && mealId) {
       // Find the meal data from the category
       const meal = category.meals.find((meal: MenuItem) => meal.id === mealId);
-      
       if (meal) {
         addToOrder({
           mealId: meal.id!,

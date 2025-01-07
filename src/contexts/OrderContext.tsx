@@ -19,33 +19,41 @@ const STORAGE_KEY = 'smartmasa_order';
 const TABLE_ID_KEY = 'smartmasa_table_id';
 
 export function OrderProvider({ children }: { children: ReactNode }) {
-  const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
-  const [tableId, setTableId] = useState<string>('');
-
-  // Load from sessionStorage on client-side mount
-  useEffect(() => {
-    const savedOrder = sessionStorage.getItem(STORAGE_KEY);
-    const savedTableId = sessionStorage.getItem(TABLE_ID_KEY);
-    
-    if (savedOrder) {
-      setOrderItems(JSON.parse(savedOrder));
+  const [orderItems, setOrderItems] = useState<OrderItem[]>(() => {
+    // Initialize from session storage if available
+    if (typeof window !== 'undefined') {
+      const savedOrder = sessionStorage.getItem(STORAGE_KEY);
+      return savedOrder ? JSON.parse(savedOrder) : [];
     }
-    if (savedTableId) {
-      setTableId(savedTableId);
+    return [];
+  });
+  const [tableId, setTableId] = useState<string>(() => {
+    // Initialize table ID from session storage if available
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem(TABLE_ID_KEY) || '';
     }
-  }, []);
+    return '';
+  });
 
   // Update sessionStorage whenever orderItems changes
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(orderItems));
+    if (typeof window !== 'undefined' && orderItems) {
+      try {
+        sessionStorage.setItem(STORAGE_KEY, JSON.stringify(orderItems));
+      } catch (error) {
+        console.error('Error saving order to session storage:', error);
+      }
     }
   }, [orderItems]);
 
   // Update sessionStorage whenever tableId changes
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      sessionStorage.setItem(TABLE_ID_KEY, tableId);
+    if (typeof window !== 'undefined' && tableId) {
+      try {
+        sessionStorage.setItem(TABLE_ID_KEY, tableId);
+      } catch (error) {
+        console.error('Error saving table ID to session storage:', error);
+      }
     }
   }, [tableId]);
 
