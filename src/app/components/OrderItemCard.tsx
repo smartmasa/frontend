@@ -7,7 +7,7 @@ type OrderItemCardProps = Omit<OrderItem, 'mealId' | 'comment'>;
 
 export function OrderItemCard({ name, price, quantity, imageUrl }: OrderItemCardProps) {
   return (
-    <CardContainer className="p-4">
+    <CardContainer className="p-4 max-w-2xl mx-auto">
       <div className="flex items-center">
         <div className="w-16 h-16 relative rounded-lg overflow-hidden">
           <Image

@@ -75,7 +75,7 @@ export default function OrdersPage() {
 
       {/* Bottom Buttons */}
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-white shadow-lg">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-xl mx-auto">
           <OrderSummaryButton
             totalAmount={calculateTotal(orderItems).amount}
             totalQuantity={orderItems.reduce((sum, item) => sum + item.quantity, 0)}

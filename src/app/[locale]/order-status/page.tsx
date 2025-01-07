@@ -71,7 +71,7 @@ export default function OrderStatusPage() {
 
       {/* Fixed bottom buttons */}
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-white shadow-lg">
-        <div className="max-w-7xl mx-auto flex gap-3">
+        <div className="max-w-xl mx-auto flex gap-3">
           <Link href={`/menu`} className="flex-1">
             <Button
               variant="secondary"

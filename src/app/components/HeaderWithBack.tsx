@@ -10,8 +10,8 @@ export const HeaderWithBack = ({ title }: HeaderWithBackProps) => {
 
   return (
     <div className="bg-white shadow-sm p-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center">
+      <div className="max-w-7xl mx-auto px-4 pt-2 flex justify-between items-center">
+      <div className="flex items-center">
           <button 
             onClick={() => router.back()}
             className="mr-4 text-secondary-500"

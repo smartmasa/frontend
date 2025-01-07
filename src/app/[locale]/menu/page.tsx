@@ -18,7 +18,7 @@ interface CategorySectionProps {
   gridClassName?: string;
 }
 
-function CategorySection({ category, gridClassName }: CategorySectionProps) {
+function CategorySection({ category }: CategorySectionProps) {
   const { orderItems, updateQuantity, addToOrder } = useOrder();
   
   const handleQuantityChange = (mealId: string, newQuantity: number) => {
@@ -46,7 +46,7 @@ function CategorySection({ category, gridClassName }: CategorySectionProps) {
         {category.name}
       </h2>
       
-      <div className={gridClassName || "grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-y-6 justify-items-center"}>
+      <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-y-6 justify-items-center">
         {category.meals && category.meals.map((meal) => (
           meal && meal.id && (
             <MealCard
@@ -155,14 +155,13 @@ export default function MenuPage() {
   }
 
   return (
-    <div className="container mx-auto max-w-7xl">
       <main className="min-h-screen pb-24 bg-gray-50 scroll-pt-20">
         <HeaderWithLogo />
 
         {/* Scrollable tabs */}
         <div className="sticky top-0 bg-white shadow-sm z-10">
           <div className="overflow-x-auto scrollbar-hide">
-            <div className="flex gap-2 p-4 min-w-full">
+            <div className="flex gap-2 p-4 min-w-full justify-center">
               {menuData.map((category) => (
                 <Tab
                   key={category.id}
@@ -180,7 +179,6 @@ export default function MenuPage() {
             <div id={`category-${category.id}`} key={category.id} className="scroll-mt-20">
               <CategorySection
                 category={category}
-                gridClassName="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-y-6 justify-items-center"
               />
             </div>
           ))}
@@ -188,7 +186,7 @@ export default function MenuPage() {
 
         {/* Fixed bottom bar */}
         <div className="fixed bottom-0 left-0 right-0 p-4 bg-white shadow-lg">
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-xl mx-auto">
             <Link href={`/orders`}>
               <OrderSummaryButton
                 totalAmount={total.amount}
@@ -199,6 +197,5 @@ export default function MenuPage() {
           </div>
         </div>
       </main>
-    </div>
   );
 } 

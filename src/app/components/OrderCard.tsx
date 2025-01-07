@@ -23,7 +23,7 @@ export function OrderCard({
   };
 
   return (
-    <CardContainer className="p-4">
+    <CardContainer className="p-4 max-w-2xl mx-auto">
       <div className="space-y-3">
         <div className="flex">
           <div className="w-16 h-16 relative rounded-lg overflow-hidden">
