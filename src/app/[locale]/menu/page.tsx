@@ -5,13 +5,13 @@ import { useState, useEffect } from 'react';
 import Tab from '@/app/components/Tab';
 import HeaderWithLogo from '@/app/components/HeaderWithLogo';
 import LoadingSpinner from '@/app/components/LoadingSpinner';
-import { useRouter } from 'next/navigation';
 import { useOrder } from '@/contexts/OrderContext';
 import { calculateTotal } from '@/lib/utils';
 import { fetchMenu } from '@/services/menuService';
 import { Category, MenuItem } from '@/types/menu';
-import { useTranslation } from '@/utils/i18n';
 import { OrderSummaryButton } from '@/app/components/OrderSummaryButton';
+import { useLocale } from "next-intl";
+import { Link } from '@/i18n/routing';
 
 interface CategorySectionProps {
   category: Category;
@@ -72,13 +72,12 @@ function CategorySection({ category, gridClassName }: CategorySectionProps) {
 }
 
 export default function MenuPage() {
-  const router = useRouter();
   const { orderItems } = useOrder();
   const [menuData, setMenuData] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<string>('');
-  const { currentLanguage } = useTranslation();
+  const locale = useLocale();
 
   const scrollToCategory = (categoryId: string) => {
     const element = document.getElementById(`category-${categoryId}`);
@@ -98,7 +97,7 @@ export default function MenuPage() {
   useEffect(() => {
     const loadMenu = async () => {
       try {
-        const data = await fetchMenu(currentLanguage);
+        const data = await fetchMenu(locale);
         setMenuData(data.categories);
         // Set first tab as active by default
         setActiveTab(data.categories[0].id);
@@ -162,12 +161,13 @@ export default function MenuPage() {
         {/* Fixed bottom bar */}
         <div className="fixed bottom-0 left-0 right-0 p-4 bg-white shadow-lg">
           <div className="max-w-7xl mx-auto">
-            <OrderSummaryButton
-              totalAmount={total.amount}
-              totalQuantity={orderItems.reduce((sum, item) => sum + item.quantity, 0)}
-              onClick={() => router.push('/orders')}
-              disabled={total.amount === 0}
-            />
+            <Link href={`/orders`}>
+              <OrderSummaryButton
+                totalAmount={total.amount}
+                totalQuantity={orderItems.reduce((sum, item) => sum + item.quantity, 0)}
+                disabled={total.amount === 0}
+              />
+            </Link>
           </div>
         </div>
       </main>

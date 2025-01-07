@@ -9,8 +9,10 @@ import { HeaderWithBack } from '@/app/components/HeaderWithBack';
 import { Button } from '@/app/components/Button';
 import { useRouter } from 'next/navigation';
 import { useOrder } from '@/contexts/OrderContext';
-import { useTranslation } from '@/utils/i18n';
+import {useTranslations} from 'next-intl';
 import LoadingSpinner from '@/app/components/LoadingSpinner';
+import { useLocale } from 'next-intl';
+import { Link } from '@/i18n/routing';
 
 export default function OrderStatusPage() {
   const router = useRouter();
@@ -18,7 +20,8 @@ export default function OrderStatusPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const { t, currentLanguage } = useTranslation();
+  const t = useTranslations();
+  const currentLocale = useLocale();
 
   useEffect(() => {
     if (!tableId) {
@@ -27,19 +30,18 @@ export default function OrderStatusPage() {
 
     const fetchOrders = async () => {
       try {
-        const response = await getTableOrders(tableId, currentLanguage);
+        const response = await getTableOrders(tableId, currentLocale);
         setOrders(response.orders);
         setTotalPrice(response.totalPrice);
       } catch (error) {
         console.error('Error fetching orders:', error);
-        // setError(t('order_status.failed_to_load'));
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchOrders();
-  }, [tableId, currentLanguage, t]);
+  }, [tableId, currentLocale, t]);
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -72,22 +74,23 @@ export default function OrderStatusPage() {
       {/* Fixed bottom buttons */}
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-white shadow-lg">
         <div className="max-w-7xl mx-auto flex gap-3">
+        <Link href={`/menu`}>
           <Button
             variant="secondary"
             className="flex-1"
-            onClick={() => router.push('/menu')}
             text={t('order_status.new_order')}
           />
+          </Link>
+          <Link href={`#`}>
           <Button
             variant="primary"
-            className="flex-1 flex justify-between"
-            onClick={() => {}}
-          >
+            className="flex-1 flex justify-between"          >
             <div className="flex justify-between items-center w-full">
               <span>{t('order_status.pay')}</span>
               <span>{formatPrice(totalPrice)}</span>
             </div>
           </Button>
+          </Link>
         </div>
       </div>
     </div>

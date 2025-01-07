@@ -16,7 +16,7 @@
     "finish": "Завершить",
     "placing_order": "Размещение заказа...",
     "order_confirmed": "Заказ подтвержден!",
-    "order_confirmed_description": "Ваш заказ будет готов через {{minutesMin}}-{{minutesMax}} минут."
+    "order_confirmed_description": "Ваш заказ будет готов через {minutesMin}-{minutesMax} минут."
   },
   "order_status": {
     "title": "Неоплаченные заказы",

@@ -1,16 +1,16 @@
 import { Button } from './Button';
 import Image from 'next/image';
-import { useTranslation } from '@/utils/i18n';
+import {useTranslations} from 'next-intl';
+import { Link } from '@/i18n/routing';
 
 interface OrderConfirmationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onViewOrder: () => void;
   estimatedTimeInMin: number;
 }
 
-export function OrderConfirmationModal({ isOpen, onClose, onViewOrder, estimatedTimeInMin }: OrderConfirmationModalProps) {
-  const { t } = useTranslation();
+export function OrderConfirmationModal({ isOpen, onClose, estimatedTimeInMin }: OrderConfirmationModalProps) {
+  const  t = useTranslations();
   
   if (!isOpen) return null;
 
@@ -34,13 +34,14 @@ export function OrderConfirmationModal({ isOpen, onClose, onViewOrder, estimated
               minutesMax: estimatedTimeInMin + 5 
             })}
           </p>
+          <Link href={`/order-status`}>
 
           <Button
             variant="primary"
             className="w-full"
-            onClick={onViewOrder}
             text={t('order.view_order')}
           />
+          </Link>
         </div>
       </div>
     </div>

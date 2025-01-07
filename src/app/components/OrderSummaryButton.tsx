@@ -1,11 +1,11 @@
 import { Button } from '@/app/components/Button';
 import { formatPrice } from '@/lib/formatters';
-import { useTranslation } from '@/utils/i18n';
+import {useTranslations} from 'next-intl';
 
 interface OrderSummaryButtonProps {
   totalAmount: number;
   totalQuantity: number;
-  onClick: () => void;
+  onClick?: () => void;
   disabled?: boolean;
   isLoading?: boolean;
   buttonText?: string;
@@ -19,7 +19,7 @@ export function OrderSummaryButton({
   isLoading = false,
   buttonText,
 }: OrderSummaryButtonProps) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   
   return (
     <Button

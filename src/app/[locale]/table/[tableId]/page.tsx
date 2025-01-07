@@ -6,13 +6,13 @@ import HeaderWithLogo from '@/app/components/HeaderWithLogo';
 import { useOrder } from '@/contexts/OrderContext';
 import { useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { useTranslation } from '@/utils/i18n';
+import {useTranslations} from 'next-intl';
 
 export default function TablePage() {
   const { setTableId } = useOrder();
   const params = useParams();
   const tableId = params?.tableId as string;
-  const { t } = useTranslation();
+  const t  = useTranslations();
 
   useEffect(() => {
     if (tableId) {
@@ -32,7 +32,7 @@ export default function TablePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl place-items-center">
             {/* Order now card */}
             <Link 
-              href={`/${params.lang}/menu`}
+              href={`/menu`}
               className="bg-white w-72 rounded-3xl p-8 flex flex-col items-center justify-center gap-6 shadow-sm hover:shadow-md transition-all border border-secondary-200 hover:border-2 hover:border-primary-500"
             >
               <Image

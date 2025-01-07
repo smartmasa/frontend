@@ -8,7 +8,7 @@ import { useState, useEffect, useRef } from 'react';
 import { OrderConfirmationModal } from '@/app/components/OrderConfirmationModal';
 import { HeaderWithBack } from '@/app/components/HeaderWithBack';
 import { placeOrder } from '@/services/orderService';
-import { useTranslation } from '@/utils/i18n';
+import {useTranslations} from 'next-intl';
 import LoadingSpinner from '@/app/components/LoadingSpinner';
 import { OrderSummaryButton } from '@/app/components/OrderSummaryButton';
 
@@ -18,7 +18,7 @@ export default function OrdersPage() {
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { t } = useTranslation();
+  const t = useTranslations();
   const [estimatedTime, setEstimatedTime] = useState<number>(0);
   const orderPlacedRef = useRef(false);
 
@@ -90,10 +90,6 @@ export default function OrdersPage() {
       <OrderConfirmationModal
         isOpen={isConfirmationOpen}
         onClose={() => setIsConfirmationOpen(false)}
-        onViewOrder={() => {
-          setIsConfirmationOpen(false);
-          router.push('/order-status');
-        }}
         estimatedTimeInMin={estimatedTime}
       />
     </div>

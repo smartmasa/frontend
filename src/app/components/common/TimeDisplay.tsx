@@ -1,4 +1,4 @@
-import { useTranslation } from '@/utils/i18n';
+import {useTranslations} from 'next-intl';
 
 interface TimeDisplayProps {
   minutes: string | number;
@@ -6,7 +6,7 @@ interface TimeDisplayProps {
 }
 
 export function TimeDisplay({ minutes, className = '' }: TimeDisplayProps) {
-  const { t } = useTranslation();
+  const  t  = useTranslations();
   
   return (
     <div className={`flex items-center gap-1 ${className}`}>

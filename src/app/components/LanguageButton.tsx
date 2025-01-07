@@ -1,13 +1,13 @@
-"use client";
-
 import { useState } from 'react';
 import Image from 'next/image';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import LanguageTab from './LanguageTab';
-import { usePathname, useRouter } from 'next/navigation';
-import { Language, languages, useTranslation } from '@/utils/i18n';
+import { useLocale } from 'next-intl';
+import { Link, usePathname, routing } from '@/i18n/routing';
 
-const languageNames: Record<Language, string> = {
+const { locales: languages } = routing;
+
+const languageNames: Record<string, string> = {
   az: 'Azerbaijani',
   ru: 'Russian',
   tr: 'Turkish',
@@ -16,16 +16,8 @@ const languageNames: Record<Language, string> = {
 
 export default function LanguageButton() {
   const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
-  const { currentLanguage } = useTranslation();
+  const currentLocale = useLocale();
   const pathname = usePathname();
-  const router = useRouter();
-
-  const handleLanguageChange = (language: Language) => {
-    const segments = pathname.split('/');
-    segments[1] = language;
-    router.push(segments.join('/'));
-    setIsLanguageModalOpen(false);
-  };
 
   return (
     <>
@@ -34,8 +26,8 @@ export default function LanguageButton() {
         className="flex items-center hover:bg-gray-50 rounded-lg"
       >
         <Image 
-          src={`/static/flags/${currentLanguage}.svg`}
-          alt={`${languageNames[currentLanguage]} flag`}
+          src={`/static/flags/${currentLocale}.svg`}
+          alt={`${languageNames[currentLocale]} flag`}
           width={24}
           height={24}
           className="rounded-full"
@@ -58,13 +50,17 @@ export default function LanguageButton() {
             <div className="p-6">
               <div className="grid grid-cols-2 gap-4">
                 {languages.map((code) => (
-                  <LanguageTab
+                  <Link
                     key={code}
-                    code={code}
-                    name={languageNames[code]}
-                    isSelected={currentLanguage === code}
-                    onClick={() => handleLanguageChange(code)}
-                  />
+                    href={pathname}
+                    locale={code}
+                  >
+                    <LanguageTab
+                      code={code}
+                      name={languageNames[code]}
+                      isSelected={currentLocale === code}
+                    />
+                  </Link>
                 ))}
               </div>
             </div>
@@ -73,4 +69,4 @@ export default function LanguageButton() {
       )}
     </>
   );
-} 
+}

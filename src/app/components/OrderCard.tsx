@@ -5,7 +5,7 @@ import { formatPrice } from '@/lib/formatters';
 import { CardContainer } from './common/CardContainer';
 import { QuantityControl } from './common/QuantityControl';
 import { OrderItem } from '@/types/order';
-import { useTranslation } from '@/utils/i18n';
+import {useTranslations} from 'next-intl';
 
 interface OrderCardProps {
   item: OrderItem;
@@ -16,7 +16,7 @@ export function OrderCard({
   item, 
   onQuantityChange,
 }: OrderCardProps) {
-  const { t } = useTranslation();
+  const t  = useTranslations();
 
   const handleQuantityChange = (newQuantity: number) => {
     onQuantityChange(item.mealId, newQuantity);
