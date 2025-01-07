@@ -21,7 +21,6 @@ export const HeaderWithBack = ({ title }: HeaderWithBackProps) => {
           </button>
           <h1 className="text-lg font-semibold text-secondary-500">{title}</h1>
         </div>
-        <LanguageButton />
       </div>
     </div>
   );
