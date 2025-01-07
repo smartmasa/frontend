@@ -72,22 +72,23 @@ export default function OrderStatusPage() {
       {/* Fixed bottom buttons */}
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-white shadow-lg">
         <div className="max-w-7xl mx-auto flex gap-3">
-        <Link href={`/menu`}>
-          <Button
-            variant="secondary"
-            className="flex-1"
-            text={t('order_status.new_order')}
-          />
+          <Link href={`/menu`} className="flex-1">
+            <Button
+              variant="secondary"
+              className="w-full"
+              text={t('order_status.new_order')}
+            />
           </Link>
-          <Link href={`#`}>
-          <Button
-            variant="primary"
-            className="flex-1 flex justify-between"          >
-            <div className="flex justify-between items-center w-full">
-              <span>{t('order_status.pay')}</span>
-              <span>{formatPrice(totalPrice)}</span>
-            </div>
-          </Button>
+          <Link href={`#`} className="flex-1">
+            <Button
+              variant="primary"
+              className="w-full"
+            >
+              <div className="flex justify-between items-center w-full">
+                <span>{t('order_status.pay')}</span>
+                <span>{formatPrice(totalPrice)}</span>
+              </div>
+            </Button>
           </Link>
         </div>
       </div>
