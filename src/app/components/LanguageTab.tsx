@@ -7,7 +7,7 @@ interface LanguageTabProps {
   onClick?: () => void;
 }
 
-export default function LanguageTab({ code, name, isSelected, onClick }: LanguageTabProps) {
+export default function LanguageTab({ code, name, isSelected }: LanguageTabProps) {
   return (
     <div
       className={`bg-white flex flex-col items-center p-4 rounded-xl w-full gap-2 transition-colors

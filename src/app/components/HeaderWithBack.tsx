@@ -1,6 +1,5 @@
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/navigation';
-import LanguageButton from './LanguageButton';
 
 interface HeaderWithBackProps {
   title: string;

@@ -1,10 +1,6 @@
-'use client';
-
 import HeaderWithLogo from '@/app/components/HeaderWithLogo';
-import {useTranslations} from 'next-intl';
 
 export default function Home() {
-  const t = useTranslations('common');
   
   return (
     <main className="min-h-screen bg-gray-50">

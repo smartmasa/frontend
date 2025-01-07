@@ -7,7 +7,6 @@ import { formatPrice } from '@/lib/formatters';
 import { OrderItemCard } from '@/app/components/OrderItemCard';
 import { HeaderWithBack } from '@/app/components/HeaderWithBack';
 import { Button } from '@/app/components/Button';
-import { useRouter } from 'next/navigation';
 import { useOrder } from '@/contexts/OrderContext';
 import {useTranslations} from 'next-intl';
 import LoadingSpinner from '@/app/components/LoadingSpinner';
@@ -15,7 +14,6 @@ import { useLocale } from 'next-intl';
 import { Link } from '@/i18n/routing';
 
 export default function OrderStatusPage() {
-  const router = useRouter();
   const { tableId } = useOrder();
   const [orders, setOrders] = useState<Order[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
