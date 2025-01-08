@@ -207,13 +207,21 @@ export default function MenuPage() {
         {/* Fixed bottom bar */}
         <div className="fixed bottom-0 left-0 right-0 p-4 bg-white shadow-lg">
           <div className="max-w-xl mx-auto">
-            <Link href={`/orders`}>
+            {total.amount > 0 ? (
+              <Link href={`/orders`}>
+                <OrderSummaryButton
+                  totalAmount={total.amount}
+                  totalQuantity={orderItems.reduce((sum, item) => sum + item.quantity, 0)}
+                  disabled={false}
+                />
+              </Link>
+            ) : (
               <OrderSummaryButton
                 totalAmount={total.amount}
                 totalQuantity={orderItems.reduce((sum, item) => sum + item.quantity, 0)}
-                disabled={total.amount === 0}
+                disabled={true}
               />
-            </Link>
+            )}
           </div>
         </div>
       </main>

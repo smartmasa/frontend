@@ -42,13 +42,24 @@ const Button = ({
   icon,
   text,
   children,
+  disabled,
+  onClick,
   ...props
 }: ButtonProps) => {
   const hasText = Boolean(text || children);
   
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log(disabled);
+    if (disabled) return;
+    onClick?.(e);
+  };
+  
   return (
     <button
       className={cn(buttonVariants({ variant, iconPosition, hasText, className }))}
+      disabled={disabled}
+      onClick={handleClick}
+      aria-disabled={disabled}
       {...props}
     >
       {icon && iconPosition === 'icon-left' && (
