@@ -1,7 +1,7 @@
 import { MenuResponse } from '../types/menu';
 
 export async function fetchMenu(lang: string): Promise<MenuResponse> {
-  const response = await fetch(`/api/menu?lang=${lang}`, {
+  const response = await fetch(`/api/menu`, {
     method: 'GET',
     headers: {
       'Accept-Language': lang,
