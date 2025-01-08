@@ -8,7 +8,11 @@ export function cn(...inputs: ClassValue[]) {
 
 export function calculateTotal(orderItems: OrderItem[]) {
   return {
-    amount: orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+    amount: Number((orderItems.reduce((sum, item) => {
+      // Multiply individual item price and quantity, round to 2 decimal places
+      const itemTotal = Math.round((item.price * item.quantity) * 100);
+      return (sum * 100 + itemTotal) / 100;
+    }, 0)).toFixed(2)),
     currency: process.env.BASE_CURRENCY as string
   };
-} 
+}

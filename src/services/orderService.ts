@@ -1,4 +1,5 @@
 import { OrderItem, Order } from '@/types/order';
+import { calculateTotal } from '@/lib/utils';
 
 interface PlaceOrderRequest {
   tableId: string;
@@ -22,7 +23,7 @@ interface OrdersResponse {
 }
 
 export const placeOrder = async (orderItems: OrderItem[], tableId: string): Promise<PlaceOrderResponse> => {
-  const totalPrice = orderItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+  const totalPrice = calculateTotal(orderItems).amount;
   
   const requestBody: PlaceOrderRequest = {
     tableId,
