@@ -1,7 +1,7 @@
 "use client";
 
 import MealCard from '@/app/components/MealCard';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Tab from '@/app/components/Tab';
 import HeaderWithLogo from '@/app/components/HeaderWithLogo';
 import LoadingSpinner from '@/app/components/LoadingSpinner';
@@ -77,6 +77,7 @@ export default function MenuPage() {
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<string>('');
   const locale = useLocale();
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
 
   const scrollToCategory = (categoryId: string) => {
     const element = document.getElementById(`category-${categoryId}`);
@@ -92,6 +93,22 @@ export default function MenuPage() {
       setActiveTab(categoryId);
     }
   };
+
+  // Scroll active tab into view whenever it changes
+  useEffect(() => {
+    if (!activeTab || !tabsContainerRef.current) return;
+    
+    const activeTabElement = document.getElementById(`tab-${activeTab}`);
+    if (activeTabElement) {
+      const container = tabsContainerRef.current;
+      const scrollLeft = activeTabElement.offsetLeft - (container.offsetWidth / 2) + (activeTabElement.offsetWidth / 2);
+      
+      container.scrollTo({
+        left: scrollLeft,
+        behavior: 'smooth'
+      });
+    }
+  }, [activeTab]);
 
   useEffect(() => {
     const loadMenu = async () => {
@@ -160,16 +177,19 @@ export default function MenuPage() {
 
         {/* Scrollable tabs */}
         <div className="sticky top-0 bg-white shadow-sm z-10">
-          <div className="overflow-x-auto scrollbar-hide">
-            <div className="flex gap-2 p-4 min-w-full justify-center">
-              {menuData.map((category) => (
-                <Tab
-                  key={category.id}
-                  label={category.name}
-                  isActive={activeTab === category.id}
-                  onClick={() => scrollToCategory(category.id)}
-                />
-              ))}
+          <div className="flex justify-center">
+            <div ref={tabsContainerRef} className="overflow-x-auto scrollbar-hide">
+              <div className="flex gap-2 p-4 whitespace-nowrap">
+                {menuData.map((category) => (
+                  <Tab
+                    key={category.id}
+                    id={`tab-${category.id}`}
+                    label={category.name}
+                    isActive={activeTab === category.id}
+                    onClick={() => scrollToCategory(category.id)}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
