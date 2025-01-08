@@ -68,7 +68,7 @@ export default function OrdersPage() {
           <OrderCard
             key={`${item.mealId}-${index}`}
             item={item}
-            onQuantityChange={(mealId, quantity) => updateQuantity(mealId, quantity)}
+            onQuantityChange={(mealId, quantity, comment) => updateQuantity(mealId, quantity, comment)}
           />
         ))}
       </div>

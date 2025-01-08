@@ -9,7 +9,7 @@ import {useTranslations} from 'next-intl';
 
 interface OrderCardProps {
   item: OrderItem;
-  onQuantityChange: (mealId: string, newQuantity: number) => void;
+  onQuantityChange: (mealId: string, newQuantity: number, comment?: string) => void;
 }
 
 export function OrderCard({ 
@@ -19,7 +19,11 @@ export function OrderCard({
   const t  = useTranslations();
 
   const handleQuantityChange = (newQuantity: number) => {
-    onQuantityChange(item.mealId, newQuantity);
+    onQuantityChange(item.mealId, newQuantity, item.comment);
+  };
+
+  const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onQuantityChange(item.mealId, item.quantity, e.target.value);
   };
 
   return (
@@ -54,6 +58,7 @@ export function OrderCard({
         <input
           type="text"
           value={item.comment}
+          onChange={handleCommentChange}
           placeholder={t('order.special_request_placeholder')}
           className="w-full p-2 border-b text-xs border-gray-200 text-secondary-500 placeholder-gray-400 focus:outline-none focus:ring-0 focus:border-b-2 focus:border-orange-500 transition-colors bg-transparent"
         />

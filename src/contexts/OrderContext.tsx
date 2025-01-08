@@ -7,7 +7,7 @@ interface OrderContextType {
   orderItems: OrderItem[];
   setOrderItems: (items: OrderItem[]) => void;
   addToOrder: (item: OrderItem) => void;
-  updateQuantity: (mealId: string, quantity: number) => void;
+  updateQuantity: (mealId: string, quantity: number, comment?: string) => void;
   clearOrder: () => void;
   tableId: string;
   setTableId: (id: string) => void;
@@ -70,10 +70,11 @@ export function OrderProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const updateQuantity = (mealId: string, quantity: number) => {
+  const updateQuantity = (mealId: string, quantity: number, comment?: string) => {
+    console.log(comment);
     setOrderItems(items =>
       items
-        .map(item => item.mealId === mealId ? { ...item, quantity } : item)
+        .map(item => item.mealId === mealId ? { ...item, quantity, ...(comment !== undefined && { comment }) } : item)
         .filter(item => item.quantity > 0)
     );
   };
